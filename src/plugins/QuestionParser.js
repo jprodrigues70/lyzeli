@@ -46,6 +46,7 @@ export default class QuestionParser {
     "Jamais",
     "N/A",
     "----",
+    "pouco relevante",
   ];
 
   static types = [
@@ -53,6 +54,7 @@ export default class QuestionParser {
       title: "Timestamp",
       key: "timestamp",
       somewhere: ["carimbo de data/hora"],
+      startsWith: ["timestamp"],
     },
     {
       title: "Terms And Conditions",
@@ -61,6 +63,9 @@ export default class QuestionParser {
         "li e concordo",
         "li e estou de acordo",
         "concordo com os termos",
+        "concordo em continuar",
+        "concordar e continuar",
+        "aceito participar",
       ],
       answers: {
         options: {
@@ -69,35 +74,6 @@ export default class QuestionParser {
           },
           positive: {
             startsWith: this.agreement,
-          },
-        },
-      },
-    },
-    {
-      title: "Yes or Not",
-      key: "yesOrNot",
-      somewhere: [
-        "você já",
-        "você tem",
-        "você sabe",
-        "você conhece",
-        "você lida",
-        "você utiliza",
-      ],
-      startsWith: ["É "],
-      endsWith: [
-        "discorra",
-        "justifique",
-        "justifique sua resposta",
-        "é uma prática adotada no seu fluxo de trabalho?",
-      ],
-      answers: {
-        options: {
-          negative: {
-            startsWith: this.nonConcordance,
-          },
-          positive: {
-            startsWith: this.concordance,
           },
         },
       },
@@ -134,13 +110,59 @@ export default class QuestionParser {
         "escolha",
         "Qual o seu nível de",
         "Há quanto tempo",
+        "em qual",
+        "quantos anos",
+        "o quanto você",
+        "quais tipos",
       ],
+      somewhere: ["quanto tempo", "quantos anos"],
       endsWith: [":", "a seguir.", "a seguir:", "seguintes:", "seguintes."],
+    },
+    {
+      title: "Yes or Not",
+      key: "yesOrNot",
+      somewhere: [
+        "você já",
+        "você tem",
+        "você sabe",
+        "você conhece",
+        "você lida",
+        "você utiliza",
+        "você aprendeu",
+        "você lembra",
+        "Se sim",
+        "Se não",
+      ],
+      startsWith: ["É "],
+      endsWith: [
+        "discorra",
+        "justifique",
+        "justifique sua resposta",
+        "é uma prática adotada no seu fluxo de trabalho?",
+      ],
+      answers: {
+        options: {
+          negative: {
+            startsWith: this.nonConcordance,
+          },
+          positive: {
+            startsWith: this.concordance,
+          },
+        },
+      },
     },
     {
       title: "Negative or list",
       key: "negativeOrList",
-      somewhere: ["Quais "],
+      somewhere: [
+        "Quais ",
+        "sua opinião",
+        "opine",
+        "você sugere",
+        "você acha",
+        "justifique",
+        "você considera",
+      ],
       answers: {
         options: {
           negative: {
@@ -176,9 +198,12 @@ export default class QuestionParser {
   static normalizeStr(str) {
     return str
       .toLowerCase()
+      .replace(/[0-9]/g, "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
-      .replace(/,/g, "");
+      .replace(/,/g, "")
+      .replace(/\./g, "")
+      .trim();
   }
 
   static predictType(question) {
