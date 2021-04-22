@@ -1,16 +1,6 @@
 import BrazilianStates from "./BrazilianStates";
 
 export default class QuestionParser {
-  static agreement = [
-    "concordo",
-    "estou de acordo",
-    "li e concordo",
-    "li e estou de acordo",
-    "concordo com os termos",
-  ];
-
-  static disagreement = ["não concordo", "não aceito"];
-
   static concordance = [
     "Sim",
     "Com certeza",
@@ -48,6 +38,16 @@ export default class QuestionParser {
     "----",
     "pouco relevante",
   ];
+
+  static agreement = [
+    "estou de acordo",
+    "li e concordo",
+    "li e estou de acordo",
+    "concordo com os termos",
+    ...this.concordance,
+  ];
+
+  static disagreement = ["não concordo", "não aceito", ...this.nonConcordance];
 
   static types = [
     {
