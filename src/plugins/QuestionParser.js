@@ -195,15 +195,15 @@ export default class QuestionParser {
     return this.types.find((i) => i.key === key);
   }
 
-  static normalizeStr(str) {
-    return str
+  static normalizeStr(str, removeNumbers = false) {
+    const output = str
       .toLowerCase()
-      .replace(/[0-9]/g, "")
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/,/g, "")
       .replace(/\./g, "")
       .trim();
+    return removeNumbers ? output.replace(/[0-9]/g, "") : output;
   }
 
   static predictType(question) {
@@ -211,13 +211,13 @@ export default class QuestionParser {
       const type = this.types[i];
       let includes = null;
 
-      includes = this.checkStartsWith(question, type.startsWith);
+      includes = this.checkStartsWith(question, type.startsWith, true);
       if (!includes) {
-        includes = this.checkEndsWith(question, type.endsWith);
+        includes = this.checkEndsWith(question, type.endsWith, true);
       }
 
       if (!includes) {
-        includes = this.checkSomewhere(question, type.somewhere);
+        includes = this.checkSomewhere(question, type.somewhere, true);
       }
 
       if (includes) {
@@ -228,30 +228,36 @@ export default class QuestionParser {
     return this.types.find((i) => i.key === "openQuestion");
   }
 
-  static checkStartsWith(text, options) {
+  static checkStartsWith(text, options, removeNumbers = false) {
     if (!(options && options.length)) {
       return false;
     }
     return options.find((item) =>
-      this.normalizeStr(text).startsWith(this.normalizeStr(item))
+      this.normalizeStr(text, removeNumbers).startsWith(
+        this.normalizeStr(item, removeNumbers)
+      )
     );
   }
 
-  static checkEndsWith(text, options) {
+  static checkEndsWith(text, options, removeNumbers = false) {
     if (!(options && options.length)) {
       return false;
     }
     return options.find((item) =>
-      this.normalizeStr(text).endsWith(this.normalizeStr(item))
+      this.normalizeStr(text, removeNumbers).endsWith(
+        this.normalizeStr(item, removeNumbers)
+      )
     );
   }
 
-  static checkSomewhere(text, options) {
+  static checkSomewhere(text, options, removeNumbers = false) {
     if (!(options && options.length)) {
       return false;
     }
     return options.find((item) =>
-      this.normalizeStr(text).includes(this.normalizeStr(item))
+      this.normalizeStr(text, removeNumbers).includes(
+        this.normalizeStr(item, removeNumbers)
+      )
     );
   }
 
