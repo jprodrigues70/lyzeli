@@ -115,7 +115,7 @@ export default class QuestionParser {
         "o quanto você",
         "quais tipos",
       ],
-      somewhere: ["quanto tempo", "quantos anos"],
+      somewhere: ["quanto tempo", "quantos anos", "o quanto você"],
       endsWith: [":", "a seguir.", "a seguir:", "seguintes:", "seguintes."],
     },
     {
@@ -201,9 +201,9 @@ export default class QuestionParser {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/,/g, "")
-      .replace(/\./g, "")
-      .trim();
-    return removeNumbers ? output.replace(/[0-9]/g, "") : output;
+      .replace(/\./g, "");
+
+    return removeNumbers ? output.replace(/[0-9]/g, "").trim() : output;
   }
 
   static predictType(question) {
