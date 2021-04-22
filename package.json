@@ -17,8 +17,8 @@
     "react-scripts": "4.0.3",
     "sentiment-ptbr": "^1.0.3",
     "web-vitals": "^1.1.1",
-    "homepage": "https://jprodrigues70.github.io/tsv-explorer"
   },
+  "homepage": "https://jprodrigues70.github.io/tsv-explorer",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
