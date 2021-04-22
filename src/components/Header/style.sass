@@ -1,0 +1,66 @@
+
+.c-header
+  height: 100%
+  box-shadow: inset 0px -1px 0px #f3f4f4
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 0 5%
+
+  &__logo
+    @media (max-width: 768px)
+      width: 40px
+  &__nav
+    display: flex
+    align-items: center
+    gap: 8px
+  &__ul
+    display: flex
+    list-style: none
+    padding: 0
+    align-items: center
+  &__li:not(:last-child)
+    margin-right: 12px
+    color: #2c3e50!important
+    a
+      color: #2c3e50!important
+  &__link
+    @media (max-width: 768px)
+      display: none
+  &__modal
+    &-nav
+      width: 100%
+      display: flex
+      align-items: center
+      justify-content: space-between
+    &-ul
+      padding: 0
+      list-style: none
+    &-li
+      display: flex
+      align-items: center
+      &-content
+        padding: 12px 0
+        display: flex
+        align-items: center
+        justify-content: space-between
+        width: 100%
+        color: #2c3e50!important
+        &.v--dark
+          color: #f0f6fc !important
+
+
+  &__menu
+    &-toggle
+      @media (min-width: 769px)
+        display: none!important
+
+  &.v--dark
+    background-color: #161b22
+    box-shadow: inset 0px -1px 0px #161b22 !important
+    a
+      color: #f0f6fc !important
+
+    .c-navbar__logo
+      filter: drop-shadow( 0px 1px 6px  rgba(255, 255, 2555, 1))

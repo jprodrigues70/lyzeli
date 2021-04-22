@@ -1,0 +1,37 @@
+.c-dropdown
+  display: inline-block
+  &__content
+    box-shadow: 0 0 0 1px rgba(111,119,130,.15), 0 5px 20px 0 rgba(21,27,38,.08)
+    border: 1px solid #e3e3e4
+    background-color: #FFF
+    border-radius: 8px
+    z-index: 11
+    left: 0!important
+    overflow: hidden
+    position: absolute
+    left: 0
+    top: 0
+  &__list
+    list-style: none
+    padding: 0
+    &-item
+      cursor: pointer
+      display: flex
+      flex-direction: column
+      width: 100%
+      a
+        color: inherit !important
+      &:hover
+        background-color: rgba(84, 84, 84, 0.2) !important
+      &-body
+        display: flex
+        width: 100%
+      &-container
+        padding: 12px 16px
+      &-content
+        width: 100%
+        display: flex
+        align-items: center
+        color: inherit !important
+      &-description
+        width: 100%

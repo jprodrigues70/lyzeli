@@ -1,0 +1,240 @@
+// .App
+//   text-align:: center;
+
+// .App-logo
+//   height: 40vmin;
+//   pointer-events: none;
+
+// @media (prefers-reduced-motion: no-preference)
+//   .App-logo
+//     animation: App-logo-spin infinite 20s linear;
+
+// .App-header
+//   background-color:: #282c34;
+//   min-height: 100vh;
+//   display:: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content:: center;
+//   font-size:: calc(10px + 2vmin);
+//   color:: white;
+
+// .App-link
+//   color:: #61dafb;
+
+// @keyframes App-logo-spin
+//   from
+//     transform: rotate(0deg);
+
+//   to
+//     transform: rotate(360deg);
+\:root
+  --default-grey: #e3e3e4
+  --darken-default-grey: darken(#e3e3e4, 4)
+  --aries-orange: #d3522a
+
+*, *:before, *:after
+  box-sizing: border-box
+  margin: 0
+html
+  font-family: 'Nunito'
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  color: #2c3e50
+  font-size: 14px
+  @media (max-width: 768px)
+    font-size: 13px
+html, body
+  padding: 0
+  margin: 0
+  height: 100%
+
+a
+  text-decoration: none
+  color: #067bc2
+  h2
+    color: #2c3e50
+    &:hover
+      color: darken(#067bc2, 15)
+  &:hover
+    color: darken(#067bc2, 15)
+
+[disabled="true"]
+  opacity: .6
+  cursor: wait!important
+
+.router-link-active
+  font-weight: 700
+
+.c-tooltip
+  background-color: rgba(0, 0, 0, 0.88)
+  color: #FFF
+  padding: 8px 12px
+  border-radius: 8px
+  font-size: 13px
+  max-width: 300px
+  width: fit-content
+  position: relative
+  z-index: 99
+  &__legend
+    &-item
+      display: flex
+      align-items center
+      font-size: 14px
+      &-tag
+        width: 20px
+        height: 14px
+        margin-right: 4px
+        border-radius: 4px
+
+  &__arrow
+    width: 0
+    height: 0
+    border-style: solid
+    position: absolute
+    margin: 5px
+    z-index: 1
+    // transform none!important
+    border-color: rgba(0, 0, 0, 0.75)
+
+  &[data-popper-placement^="top"]
+    margin-bottom: 5px
+    .c-tooltip__arrow
+      border-width: 5px 5px 0 5px
+      border-left-color: transparent !important
+      border-right-color: transparent !important
+      border-bottom-color: transparent !important
+      bottom: -5px
+      margin-left: -2.5px
+      margin-top: 0
+      margin-bottom: 0
+  &[data-popper-placement^="bottom"]
+    margin-top: 5px
+    .c-tooltip__arrow
+      border-width: 0 5px 5px 5px
+      border-left-color: transparent !important
+      border-right-color: transparent !important
+      border-top-color: transparent !important
+      top: -5px
+      margin-left: -2.5px
+      margin-top: 0
+      margin-bottom: 0
+  &[data-popper-placement^="right"]
+    margin-left: 5px
+    .c-tooltip__arrow
+      border-width: 5px 5px 5px 0
+      border-left-color: transparent !important
+      border-top-color: transparent !important
+      border-bottom-color: transparent !important
+      left: -5px
+      top: calc(50% - 10px)!important
+      margin-left: 0
+      margin-right: 0
+
+  &[data-popper-placement^="left"]
+    margin-right: 5px
+    .c-tooltip__arrow
+      border-width: 5px 0 5px 5px
+      border-top-color: transparent !important
+      border-right-color: transparent !important
+      border-bottom-color: transparent !important
+      right: -5px
+      top: calc(50% - 10px)!important
+      margin-left: 0
+      margin-right: 0
+
+.v--align-center
+  text-align: center
+
+.v--flex
+  display: flex
+  &-align
+    &-right
+      margin-right: 0
+      margin-left: auto
+    &-middle
+      align-items: center
+    &-center
+      justify-content: center
+  &-place-self
+    &-start
+      place-self: flex-start
+a
+  cursor: pointer
+
+.v--bg
+  &-aries-orange
+    background-color: var(--aries-orange) !important
+    color: #FFF !important
+  &-bright-blue
+    background-color: #2aade6!important
+    color: #FFF!important
+
+  &-oxford-blue
+    background-color: #151d33!important
+    color: #FFF!important
+
+  &-amaranth
+    background-color: #e62a4f!important
+    color: #FFF!important
+  &-star-command-blue
+    background-color: #268dcc!important
+    color: #FFF!important
+  &-orange-yellow-crayola
+    background-color: #ffd166!important
+
+  &-caribbean-green
+    background-color: #06d6a0!important
+    color: #2c3e50
+
+  &-baby-powder
+    background-color: #fffcf9!important
+
+  &-white
+    background-color: #FFF!important
+
+  &-warning
+    background-color: #f5bc1c
+    color: #FFF!important
+
+  &-fail
+    background-color: #f52626 !important
+    color: #FFF!important !important
+
+  &-success
+    background-color: #66bb38
+
+  &-info
+    background-color: rgb(55, 136, 153)
+
+  &-grey
+    background-color: #c1c0c0
+
+.v--beal-blue
+  background-color: #ccd7e4!important
+  color: #2c3e50
+
+.v--text
+  &-center
+    text-align: center
+  &-small
+    font-size: 11px
+  &-color
+    &-fail
+      color: #f52626 !important
+
+.v--spin
+  animation-name: spin
+  animation-duration: 3000ms
+  animation-iteration-count: infinite
+  animation-timing-function: linear
+
+.v--hide-xs
+  @media (max-width: 768px)
+    display: none
+
+@keyframes spin
+  from
+    transform: rotate(0deg)
+  to
+    transform: rotate(360deg)

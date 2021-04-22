@@ -1,0 +1,34 @@
+.l-painel
+  position: fixed
+  display: grid
+  grid-template-columns: 260px 1fr
+  width: 100vw
+  height: 100vh
+  left: 0
+  top: 0
+  @media (max-width: 768px)
+    grid-template-columns: 1fr
+  &__leftnav
+    background-color: #05264c
+    display: grid
+    color: #FFF
+    height: 100vh
+    @media (max-width:  768px)
+      display: none
+
+  &__header
+    height: 80px
+
+  &__content
+    padding: 40px 5%
+    max-height: calc(100vh - 80px)
+    padding-bottom: 80px
+    overflow: auto
+    width: 100%
+    height: 100%
+    @media (max-width: 768px)
+      padding: 16px 5%
+      padding-bottom: 80px
+  &__right
+    max-width: calc(100vw - 260px)
+    height: 100vh

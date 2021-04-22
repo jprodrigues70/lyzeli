@@ -1,0 +1,116 @@
+
+@mixin field
+  border: 1px solid transparent
+  height: 40px
+  padding: 10px 16px
+  outline: none
+  border-radius: 8px
+  background-color: #f3f3f4
+  resize: none
+  width: 100%
+  &:focus
+    box-shadow: 0 0 0 4px rgba(234,76,137,0.2)
+    background-color: #FFF
+  &.v--dark
+    background-color: rgba(1,4,9,.50)
+    color: #FFF
+    &:focus
+      box-shadow: 0 0 0 4px rgba(234,76,137,0.8)
+
+.c-field
+  width: calc(100% - 8px)
+  margin-left: 4px
+  margin-right: 4px
+  &:not(:last-child)
+    margin-bottom: 12px
+  &:last-child
+    margin-bottom: 4px
+
+  &__fieldset
+    border: 0
+    padding: 0
+    position: relative
+  select
+    border: 1px solid transparent
+    height: 40px
+    padding: 10px 16px
+    outline: none
+    border-radius: 8px
+    background-color: transparent
+    width: 100%
+    appearance: none
+    cursor: pointer
+    position: relative
+    z-index: 1
+    &:focus
+      box-shadow: 0 0 0 4px rgba(234,76,137,0.2)
+      & ~ .c-field__background
+        background-color: #FFF
+  &__background
+    border-radius: 8px
+    height: 40px
+    width: 100%
+    position: absolute
+    bottom: 0
+    background-color: #f3f3f4
+  textarea
+    @include field
+    height: auto
+
+  &__input
+    &[type='text'],
+    &[type='number'],
+    &[type='search'],
+    &[type='password'],
+    &[type='email'],
+    &[type='url'],
+    &[type='tel']
+      @include field
+    &--switable
+      padding-right: 48px!important
+    &--large
+      font-size: 22px
+      padding: 12px 24px!important
+      height: auto!important
+      & ~ .c-field__search-despatcher
+        width: 60px
+      @media (max-width: 768px)
+        font-size: 17px
+  &__label
+    display: flex
+    justify-content: space-between
+    margin-bottom: 4px
+    width: 100%
+    text-align: left
+    font-weight: 600
+  &__visibility-switch,&__icon
+    cursor: pointer
+    width: 40px
+    height: 40px
+    border-top-right-radius: 8px
+    border-bottom-right-radius: 8px
+    border: 1px solid transparent
+    position: absolute
+    right: 0
+    bottom: 0
+    background-color: transparent
+    transition: all 2s ease
+    background-color: #f3f3f4
+    display: flex
+    align-items: center
+    justify-content: center
+  &__icon
+    z-index 0
+  &__search-despatcher
+    cursor: pointer
+    width: 40px
+    height: 100%
+    border-top-right-radius: 8px
+    border-bottom-right-radius: 8px
+    border: 1px solid transparent
+    position: absolute
+    right: 0
+    bottom: 0
+    background-color: transparent
+    transition: all 2s ease
+    background-color: #f3f3f4
