@@ -12,7 +12,6 @@ export default class RawData extends Component {
 
   body() {
     const table = this.context.state["database.table"];
-    console.log(table.rows);
     return (table && table.rows) || [];
   }
 
