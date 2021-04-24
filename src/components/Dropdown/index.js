@@ -5,7 +5,7 @@ import useComponentVisible from "../../hooks/useComponentVisible";
 import Btn from "../Btn";
 import "./style.sass";
 
-export default function Dropdown({ items, onSelect }) {
+export default function Dropdown({ items, onChange }) {
   const [referenceElement, setReferenceElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
   const [arrowElement, setArrowElement] = useState(null);
@@ -22,7 +22,7 @@ export default function Dropdown({ items, onSelect }) {
 
   const select = (item) => {
     close();
-    return onSelect(item);
+    return onChange(item);
   };
 
   const open = () => {

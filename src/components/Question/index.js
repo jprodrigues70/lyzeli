@@ -1,27 +1,26 @@
 import { Component } from "react";
-import QuestionParser from "../../plugins/QuestionParser";
-import AnswerPane from "../AnswerPane";
-import "./style.sass";
-import { Context } from "../../store";
 import Dropdown from "../Dropdown";
+import AnswerPane from "../AnswerPane";
 import CsvExtractor from "../../plugins/CsvExtractor";
-
+import { Context } from "../../store";
+import "./style.sass";
 export default class Question extends Component {
   static contextType = Context;
 
   constructor(props, context) {
     super(props, context);
-    this.rows = this.context.state["database.table"].rows || [];
-    this.classifications =
-      this.context.state["database.table"].classifications || [];
+    const { rows, classifications } = this.context.state["database.table"];
+    this.rows = rows || [];
+    this.classifications = classifications || [];
+
     this.state = {
-      classification: QuestionParser.getType(
+      classification: this.props.classifier.getOption(
         this.classifications[this.props.position]
       ),
     };
   }
 
-  onSelect(classification) {
+  onChange(classification) {
     this.setState({
       classification,
     });
@@ -30,7 +29,7 @@ export default class Question extends Component {
 
     CsvExtractor.update(this.context.state["database.key"], {
       titles: this.context.state["database.table"].titles,
-      rows: this.context.state["database.table"].rows,
+      rows: this.rows,
       classifications: this.classifications,
     });
   }
@@ -52,8 +51,8 @@ export default class Question extends Component {
           </div>
           <div className="c-question__settings">
             <Dropdown
-              items={QuestionParser.getTypes()}
-              onSelect={(item) => this.onSelect(item)}
+              items={this.props.classifier.options}
+              onChange={(item) => this.onChange(item)}
             ></Dropdown>
           </div>
         </div>

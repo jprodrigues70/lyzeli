@@ -1,4 +1,4 @@
-import QuestionParser from "./QuestionParser";
+import QuestionClassifier from "./questionClassifier";
 
 export default class CsvExtractor {
   rows = [];
@@ -7,8 +7,10 @@ export default class CsvExtractor {
     const splitedRaw = raw.split(/\r?\n|\r/);
     this.titles = splitedRaw.shift().split(/\t/);
     this.rows = splitedRaw.map((row) => row.split(/\t/));
+    const classifier = new QuestionClassifier();
+
     this.classifications = this.titles.map(
-      (title) => QuestionParser.predictType(title).key
+      (title) => classifier.predict(title).key
     );
   }
 

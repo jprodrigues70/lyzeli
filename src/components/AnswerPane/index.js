@@ -44,7 +44,6 @@ export default class AnswerPane extends Component {
   invalidsLength() {
     return this.invalids().length;
   }
-
   timestampQuestion() {
     const groupByDate = this.valids()
       .map((i) => i.answer.split(" ")[0])
@@ -163,7 +162,7 @@ export default class AnswerPane extends Component {
       const list = (
         <ul>
           {answers[item].map((i) => (
-            <li key={key(`feedback-${i}`)}>
+            <li key={key(`feedback-${i.line}`)}>
               {i.answer}
               <ul>
                 <li>Sentment Score: {i.sentment.score}</li>
@@ -334,7 +333,7 @@ export default class AnswerPane extends Component {
       const list = (
         <ul>
           {answers[item].map((i) => (
-            <li key={key(`feedback-${i}`)}>{i.answer}</li>
+            <li key={key(`feedback-${i.line}`)}>{i.answer}</li>
           ))}
         </ul>
       );

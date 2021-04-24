@@ -187,14 +187,6 @@ export default class QuestionParser {
     },
   ];
 
-  static getTypes() {
-    return this.types;
-  }
-
-  static getType(key) {
-    return this.types.find((i) => i.key === key);
-  }
-
   static normalizeStr(str, removeNumbers = false) {
     const output = str
       .toLowerCase()
@@ -204,28 +196,6 @@ export default class QuestionParser {
       .replace(/\./g, "");
 
     return removeNumbers ? output.replace(/[0-9]/g, "").trim() : output;
-  }
-
-  static predictType(question) {
-    for (let i = 0; i < this.types.length; i++) {
-      const type = this.types[i];
-      let includes = null;
-
-      includes = this.checkStartsWith(question, type.startsWith, true);
-      if (!includes) {
-        includes = this.checkEndsWith(question, type.endsWith, true);
-      }
-
-      if (!includes) {
-        includes = this.checkSomewhere(question, type.somewhere, true);
-      }
-
-      if (includes) {
-        return type;
-      }
-    }
-
-    return this.types.find((i) => i.key === "openQuestion");
   }
 
   static checkStartsWith(text, options, removeNumbers = false) {

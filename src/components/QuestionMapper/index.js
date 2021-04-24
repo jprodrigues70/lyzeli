@@ -3,6 +3,7 @@ import Question from "../Question";
 import "./style.sass";
 import { Context } from "../../store";
 import key from "../../plugins/key";
+import QuestionClassifier from "../../plugins/questionClassifier";
 
 export default class QuestionMapper extends Component {
   static contextType = Context;
@@ -13,6 +14,8 @@ export default class QuestionMapper extends Component {
   }
 
   render() {
+    const classifier = new QuestionClassifier();
+
     return (
       <div className="c-question-mapper">
         <div className="c-question-mapper__questions">
@@ -22,6 +25,7 @@ export default class QuestionMapper extends Component {
                 title={item}
                 position={index}
                 key={key(`question-${index}`)}
+                classifier={classifier}
               ></Question>
             );
           })}
