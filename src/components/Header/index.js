@@ -1,4 +1,4 @@
-import { Component } from "react";
+import { Component, createRef } from "react";
 import FileUpload from "../FileUpload";
 import { Context } from "../../store";
 import CsvExtractor from "../../plugins/CsvExtractor";
@@ -10,26 +10,31 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.state = { database: {} };
+    this.form = createRef();
   }
 
   openFile = ({ target }) => {
     const reader = new FileReader();
-    reader.readAsText(target.files[0]);
+    if (target.files && target.files.length) {
+      reader.readAsText(target.files[0]);
 
-    reader.onload = () => {
-      const database = new CsvExtractor(reader.result);
-      const key = database.persist();
-      const { dispatch } = this.context;
-      dispatch({ action: "database.create", payload: database });
-      dispatch({ action: "database.setKey", payload: key });
+      reader.onload = () => {
+        const database = new CsvExtractor(reader.result);
+        const key = database.persist();
+        const { dispatch } = this.context;
+        dispatch({ action: "database.create", payload: database });
 
-      const keys = JSON.parse(localStorage.getItem("database")) || {};
+        const keys = JSON.parse(localStorage.getItem("database")) || {};
 
-      dispatch({
-        action: "database.setKeys",
-        payload: [...Object.keys(keys)],
-      });
-    };
+        dispatch({
+          action: "database.setKeys",
+          payload: [...Object.keys(keys)],
+        });
+
+        dispatch({ action: "database.setKey", payload: key });
+        this.form.current.reset();
+      };
+    }
 
     return;
   };
@@ -37,7 +42,9 @@ export default class Header extends Component {
   render() {
     return (
       <header className={`c-header ${this.props.className || ""}`}>
-        <FileUpload onChange={(event) => this.openFile(event)} />
+        <form ref={this.form}>
+          <FileUpload onChange={(event) => this.openFile(event)} />
+        </form>
       </header>
     );
   }
