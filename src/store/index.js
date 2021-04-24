@@ -41,11 +41,8 @@ getStoreModules(raw).forEach(({ context, store }) => {
 });
 
 const commit = (state, key, payload) => {
-  delete state.key;
-  return {
-    ...state,
-    [key]: payload,
-  };
+  delete state[key];
+  return { ...state, [key]: payload };
 };
 
 const Reducer = (state, { action, payload }) => {

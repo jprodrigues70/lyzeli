@@ -5,6 +5,8 @@ import Btn from "../Btn";
 
 import Modal from "../Modal";
 import Field from "../Field";
+import { ReactComponent as Remove } from "../../assets/close.svg";
+
 export default class VerticalNav extends Component {
   static contextType = Context;
 
@@ -16,11 +18,38 @@ export default class VerticalNav extends Component {
     };
   }
 
+  remove = (event, item) => {
+    event.stopPropagation();
+    const { dispatch, state } = this.context;
+
+    const keys = state["database.keys"].filter(
+      (i) => parseInt(i) !== parseInt(item.value)
+    );
+
+    dispatch({ action: "database.remove", payload: item.value });
+
+    if (this.context.state["database.key"] === item.value) {
+      if (keys.length) {
+        const position = keys.length - 1;
+        const key = keys[position];
+        this.change(key);
+      } else {
+        dispatch({ action: "database.create", payload: {} });
+        dispatch({ action: "database.setKey", payload: "" });
+      }
+    }
+  };
+
   toggleModal = () => {
-    console.log("OPA");
     this.setState({
       showModal: !this.state.showModal,
     });
+  };
+
+  isActive = (item) => {
+    return (
+      parseInt(item.value) === parseInt(this.context.state["database.key"])
+    );
   };
 
   change(key) {
@@ -71,14 +100,22 @@ export default class VerticalNav extends Component {
           <p>You .tsv files:</p>
           {this.props.items.length ? (
             <ul className="c-vertical-nav__list">
-              {this.props.items.map((item) => {
+              {this.props.items.reverse().map((item) => {
                 return (
                   <li
-                    className="c-vertical-nav__list-item"
+                    className={`c-vertical-nav__list-item ${
+                      this.isActive(item) && `c-vertical-nav__list-item--active`
+                    }`}
                     key={item.key}
                     onClick={() => this.change(item.value)}
                   >
-                    {item.name}
+                    <span>{item.name}</span>
+                    <span
+                      className="c-vertical-nav__list-item__close"
+                      onClick={(event) => this.remove(event, item)}
+                    >
+                      <Remove></Remove>
+                    </span>
                   </li>
                 );
               })}
