@@ -1,8 +1,9 @@
 import React, { createContext, useReducer } from "react";
+import Files from "../plugins/Files";
 
 const raw = require.context(`./`, true, /.*\.(js)$/);
 
-const getComponents = (files) => {
+const getStoreModules = (files) => {
   return files
     .keys()
     .filter((key) => key !== "./index.js")
@@ -12,36 +13,30 @@ const getComponents = (files) => {
         .replace("/index.js", "")
         .replace("/", ".");
 
-      return { context, store: getComponent(page, files).default };
+      return { context, store: Files.getComponent(page, files).default };
     });
-};
-
-const getComponent = (componentName, files) => {
-  return files(componentName);
 };
 
 let initialState = {};
 let actions = {};
 
-getComponents(raw).forEach(({ context, store }) => {
+const reduceIt = (initial, component, context) => {
+  return {
+    ...initial,
+    ...Object.keys(component).reduce((acc, item) => {
+      acc[`${context}.${item}`] = component[item];
+      return acc;
+    }, {}),
+  };
+};
+
+getStoreModules(raw).forEach(({ context, store }) => {
   if (store.state) {
-    initialState = {
-      ...initialState,
-      ...Object.keys(store.state).reduce((acc, item) => {
-        acc[`${context}.${item}`] = store.state[item];
-        return acc;
-      }, {}),
-    };
+    initialState = reduceIt(initialState, store.state, context);
   }
 
   if (store.actions) {
-    actions = {
-      ...actions,
-      ...Object.keys(store.actions).reduce((acc, item) => {
-        acc[`${context}.${item}`] = store.actions[item];
-        return acc;
-      }, {}),
-    };
+    actions = reduceIt(actions, store.actions, context);
   }
 });
 
