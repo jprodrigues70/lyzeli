@@ -4,5 +4,8 @@ const cityState = {
   startsWith: ["onde você", "qual a sua cidade", "qual a sua naturalidade"],
   includes: ["cidade/estado"],
   weight: 1,
+  answers: {
+    printStyle: "summarizeCityState",
+  },
 };
 export default cityState;

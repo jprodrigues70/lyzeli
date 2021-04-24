@@ -25,7 +25,7 @@ const yesOrNot = {
     "explique",
   ],
   answers: {
-    options: {
+    classification: {
       negative: {
         startsWith: negatives,
       },
@@ -33,6 +33,7 @@ const yesOrNot = {
         startsWith: positives,
       },
     },
+    printStyle: "categorizeAndMerge",
   },
   weight: 10,
 };

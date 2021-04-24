@@ -18,7 +18,7 @@ const terms = {
     "de acordo com os termos",
   ],
   answers: {
-    options: {
+    classification: {
       negative: {
         startsWith: negatives,
       },
@@ -26,6 +26,7 @@ const terms = {
         startsWith: positives,
       },
     },
+    printStyle: "categorizeAndMerge",
   },
   weight: 1,
 };

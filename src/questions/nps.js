@@ -3,7 +3,7 @@ const nps = {
   key: "npsLike",
   includes: ["escala de 1 a 10"],
   answers: {
-    options: {
+    classification: {
       positive: {
         endsWith: ["0", "9"],
       },
@@ -14,6 +14,7 @@ const nps = {
         endsWith: ["8", "7"],
       },
     },
+    printStyle: "categorizeAndMerge",
   },
   weight: 1,
 };

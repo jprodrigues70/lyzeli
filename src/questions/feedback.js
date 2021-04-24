@@ -9,5 +9,8 @@ const feedback = {
     "sugestões",
   ],
   weight: 999,
+  answers: {
+    printStyle: "scoreSentmentsAndCategorize",
+  },
 };
 export default feedback;

@@ -24,4 +24,8 @@ export default class Str {
       this[normalizer](text).trim()[type](this[normalizer](item))
     );
   }
+
+  static ucfirst(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
 }

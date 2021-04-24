@@ -20,5 +20,8 @@ const groupsInAnswer = {
   ],
   endsWith: [":", "a seguir.", "a seguir:", "seguintes:", "seguintes."],
   weight: 9,
+  answers: {
+    printStyle: "summarize",
+  },
 };
 export default groupsInAnswer;

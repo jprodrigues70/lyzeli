@@ -15,11 +15,15 @@ const negativeOrList = {
     "você está de acordo",
   ],
   answers: {
-    options: {
+    alias: {
+      unclassified: "Others",
+    },
+    classification: {
       negative: {
         startsWith: negatives,
       },
     },
+    printStyle: "categorize",
   },
   weight: 20,
 };
