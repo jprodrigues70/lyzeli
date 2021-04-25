@@ -11,6 +11,14 @@ object-assign
  * Released under the MIT License
  */
 
+/*!
+ * wordcloud2.js
+ * http://timdream.org/wordcloud2.js/
+ *
+ * Copyright 2011 - 2019 Tim Guan-tin Chien and contributors.
+ * Released under the MIT license
+ */
+
 /** @license React v0.20.2
  * scheduler.production.min.js
  *
