@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/tsv-explorer/static/css/main.c8eae1a3.chunk.css",
-    "main.js": "/tsv-explorer/static/js/main.4d8d5a81.chunk.js",
-    "main.js.map": "/tsv-explorer/static/js/main.4d8d5a81.chunk.js.map",
+    "main.css": "/tsv-explorer/static/css/main.cfcadd32.chunk.css",
+    "main.js": "/tsv-explorer/static/js/main.4f4d668f.chunk.js",
+    "main.js.map": "/tsv-explorer/static/js/main.4f4d668f.chunk.js.map",
     "runtime-main.js": "/tsv-explorer/static/js/runtime-main.7ec9baba.js",
     "runtime-main.js.map": "/tsv-explorer/static/js/runtime-main.7ec9baba.js.map",
     "static/js/2.a8e301b9.chunk.js": "/tsv-explorer/static/js/2.a8e301b9.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.d6c7467e.chunk.js": "/tsv-explorer/static/js/3.d6c7467e.chunk.js",
     "static/js/3.d6c7467e.chunk.js.map": "/tsv-explorer/static/js/3.d6c7467e.chunk.js.map",
     "index.html": "/tsv-explorer/index.html",
-    "static/css/main.c8eae1a3.chunk.css.map": "/tsv-explorer/static/css/main.c8eae1a3.chunk.css.map",
+    "static/css/main.cfcadd32.chunk.css.map": "/tsv-explorer/static/css/main.cfcadd32.chunk.css.map",
     "static/js/2.a8e301b9.chunk.js.LICENSE.txt": "/tsv-explorer/static/js/2.a8e301b9.chunk.js.LICENSE.txt",
     "static/media/close.4deb0168.svg": "/tsv-explorer/static/media/close.4deb0168.svg",
     "static/media/settings.51e8b364.svg": "/tsv-explorer/static/media/settings.51e8b364.svg",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.7ec9baba.js",
     "static/js/2.a8e301b9.chunk.js",
-    "static/css/main.c8eae1a3.chunk.css",
-    "static/js/main.4d8d5a81.chunk.js"
+    "static/css/main.cfcadd32.chunk.css",
+    "static/js/main.4f4d668f.chunk.js"
   ]
 }
