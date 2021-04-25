@@ -20,6 +20,10 @@ export default class Question extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.title);
+  }
+
   onChange(classification) {
     this.setState({
       classification,
@@ -46,7 +50,7 @@ export default class Question extends Component {
           <div>
             <h2 className="c-question__title">{this.props.title}</h2>
             <p className="c-question__subtitle">
-              {this.state.classification?.title}
+              {this.state.classification.title}
             </p>
           </div>
           <div className="c-question__settings">

@@ -20,7 +20,7 @@ export default class Suitable extends Component {
 
   render() {
     return (
-      <div className="c-suitable">
+      <div className={`c-suitable ${this.props.className}`}>
         <div className="c-suitable__header">
           {this.props.areas.map((item) => {
             return (

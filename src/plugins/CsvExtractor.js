@@ -1,4 +1,4 @@
-import QuestionClassifier from "./questionClassifier";
+import QuestionClassifier from "./QuestionClassifier";
 
 export default class CsvExtractor {
   rows = [];

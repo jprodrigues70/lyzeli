@@ -15,14 +15,18 @@ export default class Header extends Component {
 
   openFile = ({ target }) => {
     const reader = new FileReader();
+    const { dispatch } = this.context;
     if (target.files && target.files.length) {
+      dispatch({ action: "database.create", payload: {} });
+      dispatch({ action: "loading.database", payload: true });
       reader.readAsText(target.files[0]);
+      reader.onprogress = (ctx) => {
+        console.log(ctx.loaded, ctx.total);
+      };
 
       reader.onload = () => {
         const database = new CsvExtractor(reader.result);
         const key = database.persist();
-        const { dispatch } = this.context;
-        dispatch({ action: "database.create", payload: database });
 
         const keys = JSON.parse(localStorage.getItem("database")) || {};
 
@@ -32,6 +36,8 @@ export default class Header extends Component {
         });
 
         dispatch({ action: "database.setKey", payload: key });
+        dispatch({ action: "database.create", payload: database });
+        dispatch({ action: "loading.database", payload: false });
         this.form.current.reset();
       };
     }

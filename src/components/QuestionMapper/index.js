@@ -3,23 +3,26 @@ import Question from "../Question";
 import "./style.sass";
 import { Context } from "../../store";
 import key from "../../plugins/key";
-import QuestionClassifier from "../../plugins/questionClassifier";
+import QuestionClassifier from "../../plugins/QuestionClassifier";
 
 export default class QuestionMapper extends Component {
   static contextType = Context;
 
-  menuItems() {
+  constructor(props, context) {
+    super(props, context);
+
     const table = this.context.state["database.table"];
-    return (table && table.titles) || [];
+    this.titles = (table && table.titles) || [];
   }
 
   render() {
+    console.log("cll");
     const classifier = new QuestionClassifier();
 
     return (
       <div className="c-question-mapper">
         <div className="c-question-mapper__questions">
-          {this.menuItems().map((item, index) => {
+          {this.titles.map((item, index) => {
             return (
               <Question
                 title={item}
