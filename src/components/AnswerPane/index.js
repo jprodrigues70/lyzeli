@@ -1,7 +1,4 @@
-import { Component } from "react";
-import Suitable from "../Suitable";
 import "./style.sass";
-import analyser from "sentiment-ptbr";
 import key from "../../plugins/key";
 import AnswerClassifier from "../../plugins/AnswerClassifier";
 import AnswerPrinter from "../../contracts/AnswerPrinter";

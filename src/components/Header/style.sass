@@ -50,7 +50,13 @@
         color: #2c3e50!important
         &.v--dark
           color: #f0f6fc !important
-
+  &__right
+    display: flex
+    gap: 8px
+    @media (max-width: 768px)
+      & > *
+        &:not(:first-child)
+          display: none
   &__menu
     &-toggle
       @media (min-width: 769px)

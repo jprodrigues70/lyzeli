@@ -35,7 +35,6 @@ export default database = {
 
       delete local[payload];
       localStorage.setItem("database", JSON.stringify(local));
-      const keys = Object.keys(local);
 
       return commit("keys", Object.keys(local));
     },

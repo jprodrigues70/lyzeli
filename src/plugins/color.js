@@ -21,7 +21,8 @@ const color = {
     return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? darkColor : lightColor;
   },
   string2Hex(str) {
-    switch (str.toLowerCase()) {
+    const strLower = str.toLowerCase();
+    switch (strLower) {
       case "positive":
         return "#66c333";
       case "negative":
