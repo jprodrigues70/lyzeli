@@ -140,20 +140,7 @@ export default class AnswerPrinter extends Component {
       }
     }
 
-    // const countWords = answersKeys
-    //   .flatMap((i) => i.split(" "))
-    //   .filter((i) => !stopwords.includes(i.toLowerCase()))
-    //   .reduce((acc, item) => {
-    //     acc[item] = acc[item] ? acc[item] + 1 : 1;
-    //     return acc;
-    //   }, {});
-
-    // const wordsToCloud = [];
-    return (
-      <div>
-        <Suitable areas={areas} start-closed></Suitable>
-      </div>
-    );
+    return <Suitable areas={areas} start-closed></Suitable>;
   }
 
   summaryAnswer(answers, maxText, minText) {
@@ -280,11 +267,7 @@ export default class AnswerPrinter extends Component {
         </div>
       ),
     });
-    return (
-      <div>
-        <Suitable areas={areas} />
-      </div>
-    );
+    return <Suitable areas={areas} />;
   }
 
   presentByType() {

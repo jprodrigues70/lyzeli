@@ -1,12 +1,18 @@
 .c-question
   border: 1px solid #F3F3F4
   border-radius: 4px
+  max-width: 100%
+  overflow: hidden
+
   &__header, &__body
     padding: 8px 16px
     grid-gap: 16px
     display: grid
   &__header
     grid-template-columns: 1fr 40px
+    max-width: 100%
+  &__body
+    overflow: auto
   &__title
     font-size: 15px
     font-weight: 500
