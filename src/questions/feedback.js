@@ -11,6 +11,7 @@ const feedback = {
   weight: 999,
   answers: {
     printStyle: "scoreSentmentsAndCategorize",
+    wordCloud: true,
   },
 };
 export default feedback;

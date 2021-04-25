@@ -24,6 +24,7 @@ const negativeOrList = {
       },
     },
     printStyle: "categorize",
+    wordCloud: true,
   },
   weight: 20,
 };

@@ -6,6 +6,9 @@ import key from "../plugins/key";
 
 import color from "../plugins/color";
 import Chart from "../components/Chart";
+import WordCloud from "../components/WordCloud";
+import stopwords from "../phrases/stopwords";
+import Str from "../plugins/Str";
 export default class AnswerPrinter extends Component {
   valids = [];
   invalids = [];
@@ -108,8 +111,49 @@ export default class AnswerPrinter extends Component {
           </div>
         ),
       });
+      if (type.answers && type.answers.wordCloud) {
+        const countWords = answersKeys
+          .flatMap((i) =>
+            sets[i].flatMap((j) =>
+              Str.normalizeAndRemoveNumbers(j.answer)
+                .split(" ")
+                .filter(
+                  (k) =>
+                    !stopwords
+                      .map((s) => Str.normalizeAndRemoveNumbers(s))
+                      .includes(k.toLowerCase())
+                )
+            )
+          )
+          .reduce((acc, item) => {
+            acc[item] = acc[item] ? acc[item] + 1 : 1;
+            return acc;
+          }, {});
+        const wordsToCloud = Object.keys(countWords)
+          .sort((a, b) => countWords[b] - countWords[a])
+          .map((i) => [i, countWords[i]]);
+
+        areas.push({
+          key: "Word Cloud",
+          content: <WordCloud word={wordsToCloud} />,
+        });
+      }
     }
-    return <Suitable areas={areas} start-closed></Suitable>;
+
+    // const countWords = answersKeys
+    //   .flatMap((i) => i.split(" "))
+    //   .filter((i) => !stopwords.includes(i.toLowerCase()))
+    //   .reduce((acc, item) => {
+    //     acc[item] = acc[item] ? acc[item] + 1 : 1;
+    //     return acc;
+    //   }, {});
+
+    // const wordsToCloud = [];
+    return (
+      <div>
+        <Suitable areas={areas} start-closed></Suitable>
+      </div>
+    );
   }
 
   summaryAnswer(answers, maxText, minText) {
@@ -236,7 +280,6 @@ export default class AnswerPrinter extends Component {
         </div>
       ),
     });
-
     return (
       <div>
         <Suitable areas={areas} />

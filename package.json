@@ -17,7 +17,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "sentiment-ptbr": "^1.0.3",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "wordcloud": "^1.2.1"
   },
   "homepage": "https://jprodrigues70.github.io/tsv-explorer",
   "scripts": {
