@@ -4,6 +4,8 @@ import AnswerClassifier from "../plugins/AnswerClassifier";
 import analyser from "sentiment-ptbr";
 import key from "../plugins/key";
 
+import color from "../plugins/color";
+import Chart from "../components/Chart";
 export default class AnswerPrinter extends Component {
   valids = [];
   invalids = [];
@@ -36,7 +38,8 @@ export default class AnswerPrinter extends Component {
         ? this.classifier.groupByCategories(type.key, this.valids)
         : items;
     const areas = [];
-    Object.keys(sets).forEach((set) => {
+    const answersKeys = Object.keys(sets);
+    answersKeys.forEach((set) => {
       const content = item(sets[set]);
       areas.push({
         key: `${set}: ${sets[set].length}`,
@@ -44,18 +47,81 @@ export default class AnswerPrinter extends Component {
         content,
       });
     });
+
+    if (answersKeys.length > 1) {
+      const data = {
+        labels: answersKeys,
+        datasets: [
+          {
+            maxBarThickness: 24,
+            label: false,
+            data: answersKeys.map((i) => sets[i].length),
+            backgroundColor: answersKeys.map((i, index) => {
+              return color.string2Hex(i);
+            }),
+          },
+        ],
+      };
+      const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          title: {
+            display: false,
+            text: "Number of valids respondents",
+          },
+          legend: {
+            display: false,
+            position: "right",
+          },
+          tooltip: {
+            callbacks: {
+              label: function ({ dataset, parsed }) {
+                const total = dataset.data.reduce((acc, i) => (acc += i), 0);
+                const percentage = parseFloat(
+                  ((parsed.y / total) * 100).toFixed(2)
+                );
+
+                return `${parsed.y} (${percentage}%)` || "";
+              },
+              title: function (context) {
+                return context[0].label;
+              },
+            },
+          },
+        },
+      };
+
+      areas.push({
+        key: "Chart",
+        content: (
+          <div
+            style={{
+              maxWidth: "600px",
+              width: "100%",
+              margin: "0 auto",
+              position: "relative",
+              overflow: "auto",
+            }}
+          >
+            <Chart type={"bar"} data={data} options={options}></Chart>
+          </div>
+        ),
+      });
+    }
     return <Suitable areas={areas} start-closed></Suitable>;
   }
 
   summaryAnswer(answers, maxText, minText) {
-    const max = Object.keys(answers).reduce(
+    const answersKeys = Object.keys(answers);
+    const max = answersKeys.reduce(
       (acc, key) => {
         return answers[key] > acc.total ? { key, total: answers[key] } : acc;
       },
       { total: 0 }
     );
 
-    const min = Object.keys(answers).reduce(
+    const min = answersKeys.reduce(
       (acc, key) => {
         return answers[key] < acc.total || acc.total === 0
           ? { key, total: answers[key] }
@@ -98,7 +164,7 @@ export default class AnswerPrinter extends Component {
         key: "Compiled data",
         content: (
           <ul>
-            {Object.keys(answers).map((i) => (
+            {answersKeys.map((i) => (
               <li key={key(`ctst-${i}`)}>
                 {i}: {answers[i]}
               </li>
@@ -107,6 +173,69 @@ export default class AnswerPrinter extends Component {
         ),
       },
     ];
+
+    const data = {
+      labels: answersKeys,
+      datasets: [
+        {
+          label: "# Of respondents",
+          data: answersKeys.map((i) => answers[i]),
+          backgroundColor: answersKeys.map((i, index) => {
+            const j = answersKeys.length - index;
+            if (j < 10 && j >= 0) {
+              return color.firstTemColors(j);
+            }
+            return color.string2Hex(i);
+          }),
+        },
+      ],
+    };
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        title: {
+          display: false,
+          text: "Number of valids respondents",
+        },
+        legend: {
+          display: true,
+          position: "right",
+        },
+        tooltip: {
+          callbacks: {
+            label: function ({ dataset, parsed }) {
+              const total = dataset.data.reduce((acc, i) => (acc += i), 0);
+              const percentage = parseFloat(
+                ((parsed / total) * 100).toFixed(2)
+              );
+
+              return `${parsed} (${percentage}%)` || "";
+            },
+            title: function (context) {
+              return context[0].label;
+            },
+          },
+        },
+      },
+    };
+
+    areas.push({
+      key: "Chart",
+      content: (
+        <div
+          style={{
+            maxWidth: "600px",
+            width: "100%",
+            margin: "0 auto",
+            position: "relative",
+            overflow: "auto",
+          }}
+        >
+          <Chart type={"pie"} data={data} options={options}></Chart>
+        </div>
+      ),
+    });
 
     return (
       <div>

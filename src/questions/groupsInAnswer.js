@@ -22,6 +22,7 @@ const groupsInAnswer = {
   weight: 9,
   answers: {
     printStyle: "summarize",
+    showChart: "Dognut",
   },
 };
 export default groupsInAnswer;
