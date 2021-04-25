@@ -27,7 +27,16 @@ export default class Painel extends Component {
         </div>
         <div className="l-painel__right">
           <Header className="l-painel__header test" />
-          <div className="l-painel__content">{this.props.children}</div>
+          <div className="l-painel__content">
+            <div className="l-painel__content-advice">
+              <p>
+                All content added here is saved locally to localStorage. Be sure
+                to remove the files using the side menu if you are on an
+                untrusted computer.
+              </p>
+            </div>
+            {this.props.children}
+          </div>
         </div>
       </div>
     );
