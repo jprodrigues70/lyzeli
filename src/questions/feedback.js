@@ -6,7 +6,9 @@ const feedback = {
     "deixe um comentário",
     "comente",
     "comentários",
+    "comentário",
     "sugestões",
+    "sugestão",
   ],
   weight: 999,
   answers: {
