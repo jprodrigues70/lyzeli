@@ -3,14 +3,25 @@ export default class Str {
     return text
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/,/g, "")
-      .replace(/[`~!@#$%^&*()|+=?;:'",.<>{}[\]/]/gi, "")
-      .replace(/\./g, "");
+      .replace(/[\u0300-\u036f]/gi, "")
+      .replace(/,/gi, "")
+      .replace(/[“”`~!@#$%^&*()|+=?;:'",.<>{}[\]/]/gi, "")
+      .replace(/^-/gi, "")
+      .replace(/\./gi, "");
   }
 
-  static normalizeAndRemoveNumbers(text) {
-    return this.normalize(text).replace(/^\d+/g, "").replace(/^\s+/g, "");
+  static normalizeAndRemoveNumbers(text, regex = /^\d+/g) {
+    return this.normalize(text)
+      .replace(regex, "")
+      .replace(/^[^a-zA-Z]+/gi, "")
+      .replace(/^\./gi, "")
+      .replace(/^\-/gi, "")
+      .replace(/^\_/gi, "")
+      .replace(/^\s+/g, "");
+  }
+
+  static normalizeAndRemoveAllNumbers(text) {
+    return Str.normalizeAndRemoveNumbers(text, /\d+/g);
   }
 
   static finder(type, text, options, removeNumbers) {

@@ -115,15 +115,14 @@ export default class AnswerPrinter extends Component {
         const countWords = answersKeys
           .flatMap((i) =>
             sets[i].flatMap((j) =>
-              Str.normalizeAndRemoveNumbers(j.answer)
+              Str.normalizeAndRemoveAllNumbers(j.answer)
+                .toLowerCase()
                 .split(" ")
                 .filter(
                   (k) =>
                     !stopwords
-                      .map((s) => Str.normalizeAndRemoveNumbers(s))
-                      .includes(
-                        Str.normalizeAndRemoveNumbers(k).toLowerCase()
-                      ) && k.length > 1
+                      .map((s) => Str.normalizeAndRemoveAllNumbers(s))
+                      .includes(k) && k.length > 1
                 )
             )
           )
