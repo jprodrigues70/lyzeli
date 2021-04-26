@@ -136,7 +136,7 @@ export default class AnswerPrinter extends Component {
           .map((i) => [i, countWords[i]]);
 
         areas.push({
-          key: "Word Cloud",
+          key: "Word Cloud (lento)",
           content: <WordCloud word={wordsToCloud} />,
         });
       }
