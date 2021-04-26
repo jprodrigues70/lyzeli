@@ -120,9 +120,8 @@ export default class AnswerPrinter extends Component {
                 .split(" ")
                 .filter(
                   (k) =>
-                    !stopwords
-                      .map((s) => Str.normalizeAndRemoveAllNumbers(s))
-                      .includes(k) && k.length > 1
+                    !stopwords.map((s) => Str.normalize(s)).includes(k) &&
+                    k.length > 1
                 )
             )
           )
@@ -130,7 +129,7 @@ export default class AnswerPrinter extends Component {
             acc[item] = acc[item] ? acc[item] + 1 : 1;
             return acc;
           }, {});
-        console.log(countWords);
+
         const wordsToCloud = Object.keys(countWords)
           .sort((a, b) => countWords[b] - countWords[a])
           .map((i) => [i, countWords[i]]);

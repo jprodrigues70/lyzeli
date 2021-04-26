@@ -4,6 +4,13 @@ import AnswerClassifier from "../../plugins/AnswerClassifier";
 import AnswerPrinter from "../../contracts/AnswerPrinter";
 
 export default class AnswerPane extends AnswerPrinter {
+  constructor(props) {
+    super(props);
+    this.state = {
+      component: <div></div>,
+    };
+  }
+
   summarizeDates() {
     const answers = this.valids
       .map((i) => i.answer.split(" ")[0])
@@ -90,6 +97,12 @@ export default class AnswerPane extends AnswerPrinter {
     );
   }
 
+  componentDidMount() {
+    this.setState({
+      component: this.presentByType(),
+    });
+  }
+
   render() {
     return (
       <div className="c-answer-pane">
@@ -101,7 +114,7 @@ export default class AnswerPane extends AnswerPrinter {
             Invalids: {this.invalids.length}
           </div>
         </div>
-        <div className="c-answer-pane__body">{this.presentByType()}</div>
+        <div className="c-answer-pane__body">{this.state.component}</div>
       </div>
     );
   }

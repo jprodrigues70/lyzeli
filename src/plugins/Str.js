@@ -4,20 +4,21 @@ export default class Str {
       .toLowerCase()
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/gi, "")
-      .replace(/,/gi, "")
-      .replace(/[“”`~!@#$%^&*()|+=?;:'",.<>{}[\]/]/gi, "")
-      .replace(/^-/gi, "")
-      .replace(/\./gi, "");
+      .replace(/,/g, "")
+      .replace(/[“”]/g, "")
+      .replace(/\(/g, "")
+      .replace(/\)/g, "")
+      .replace(/^-/g, "")
+      .replace(/\./g, "");
   }
 
   static normalizeAndRemoveNumbers(text, regex = /^\d+/g) {
     return this.normalize(text)
       .replace(regex, "")
-      .replace(/^[^a-zA-Z]+/gi, "")
-      .replace(/^\./gi, "")
-      .replace(/^\-/gi, "")
-      .replace(/^\_/gi, "")
-      .replace(/^\s+/g, "");
+      .replace(/^\./g, "")
+      .replace(/^-/g, "")
+      .replace(/^_/g, "")
+      .trim();
   }
 
   static normalizeAndRemoveAllNumbers(text) {
@@ -31,10 +32,11 @@ export default class Str {
     const normalizer = removeNumbers
       ? "normalizeAndRemoveNumbers"
       : "normalize";
-
-    return options.find((item) =>
+    const found = options.find((item) =>
       this[normalizer](text).trim()[type](this[normalizer](item))
     );
+
+    return found;
   }
 
   static ucfirst(str) {
