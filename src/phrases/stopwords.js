@@ -1,5 +1,11 @@
-export default [
+const stopwords = [
+  "ex",
+  "etc",
+  "tbm",
+  "tão",
+  "tanto",
   "vc",
+  "vcs",
   "pq",
   "ai",
   "ia",
@@ -367,4 +373,6 @@ export default [
   "vindo",
   "vir",
   "vós",
+  "assim",
 ];
+export default stopwords;

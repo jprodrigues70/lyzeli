@@ -31,9 +31,9 @@ const color = {
         return "#285488";
       case "unclassified":
         return "#e3e3e4";
+      default:
+        return `#${this.intToRGB(this.hashCode(str))}`;
     }
-
-    return `#${this.intToRGB(this.hashCode(str))}`;
   },
   hashCode(str) {
     str = str || "";

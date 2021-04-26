@@ -91,7 +91,6 @@ export default class AnswerPane extends AnswerPrinter {
   }
 
   render() {
-    console.log("called");
     return (
       <div className="c-answer-pane">
         <div className="c-answer-pane__counters">

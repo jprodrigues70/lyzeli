@@ -5,6 +5,7 @@ export default class Str {
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/,/g, "")
+      .replace(/[`~!@#$%^&*()|+=?;:'",.<>{}[\]/]/gi, "")
       .replace(/\./g, "");
   }
 

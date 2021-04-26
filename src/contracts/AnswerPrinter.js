@@ -121,7 +121,9 @@ export default class AnswerPrinter extends Component {
                   (k) =>
                     !stopwords
                       .map((s) => Str.normalizeAndRemoveNumbers(s))
-                      .includes(k.toLowerCase())
+                      .includes(
+                        Str.normalizeAndRemoveNumbers(k).toLowerCase()
+                      ) && k.length > 1
                 )
             )
           )
@@ -129,6 +131,7 @@ export default class AnswerPrinter extends Component {
             acc[item] = acc[item] ? acc[item] + 1 : 1;
             return acc;
           }, {});
+        console.log(countWords);
         const wordsToCloud = Object.keys(countWords)
           .sort((a, b) => countWords[b] - countWords[a])
           .map((i) => [i, countWords[i]]);

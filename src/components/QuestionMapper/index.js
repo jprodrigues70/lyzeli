@@ -16,7 +16,6 @@ export default class QuestionMapper extends Component {
   }
 
   render() {
-    console.log("cll");
     const classifier = new QuestionClassifier();
 
     return (

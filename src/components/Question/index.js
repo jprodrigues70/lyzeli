@@ -20,10 +20,6 @@ export default class Question extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.title);
-  }
-
   onChange(classification) {
     this.setState({
       classification,

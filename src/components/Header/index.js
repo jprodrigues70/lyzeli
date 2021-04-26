@@ -20,9 +20,6 @@ export default class Header extends Component {
       dispatch({ action: "database.create", payload: {} });
       dispatch({ action: "loading.database", payload: true });
       reader.readAsText(target.files[0]);
-      reader.onprogress = (ctx) => {
-        console.log(ctx.loaded, ctx.total);
-      };
 
       reader.onload = () => {
         const database = new CsvExtractor(reader.result);
