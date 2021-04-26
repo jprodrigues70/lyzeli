@@ -35,6 +35,7 @@ const positives = [
   "sempre",
   "sim",
   "sim",
+  "pois não",
 ];
 
 export default positives;

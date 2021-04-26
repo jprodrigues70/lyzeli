@@ -52,7 +52,6 @@ const stopwords = [
   "acho",
   "sim",
   "então",
-  "pois",
   "porque",
   "aliás",
   "de",
