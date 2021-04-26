@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/tsv-explorer/static/css/main.9c927645.chunk.css",
-    "main.js": "/tsv-explorer/static/js/main.b2d966e1.chunk.js",
-    "main.js.map": "/tsv-explorer/static/js/main.b2d966e1.chunk.js.map",
+    "main.js": "/tsv-explorer/static/js/main.60cd995e.chunk.js",
+    "main.js.map": "/tsv-explorer/static/js/main.60cd995e.chunk.js.map",
     "runtime-main.js": "/tsv-explorer/static/js/runtime-main.d5dc8b48.js",
     "runtime-main.js.map": "/tsv-explorer/static/js/runtime-main.d5dc8b48.js.map",
     "static/js/2.760005e8.chunk.js": "/tsv-explorer/static/js/2.760005e8.chunk.js",
@@ -21,6 +21,6 @@
     "static/js/runtime-main.d5dc8b48.js",
     "static/js/2.760005e8.chunk.js",
     "static/css/main.9c927645.chunk.css",
-    "static/js/main.b2d966e1.chunk.js"
+    "static/js/main.60cd995e.chunk.js"
   ]
 }
