@@ -3,25 +3,38 @@ import Suitable from "../components/Suitable";
 import AnswerClassifier from "../plugins/AnswerClassifier";
 import analyser from "sentiment-ptbr";
 import key from "../plugins/key";
+import { Context } from "../store";
 
 import color from "../plugins/color";
 import Chart from "../components/Chart";
 import WordCloud from "../components/WordCloud";
 import stopwords from "../phrases/stopwords";
 import Str from "../plugins/Str";
+import "./style.sass";
+import CsvExtractor from "../plugins/CsvExtractor";
+
 export default class AnswerPrinter extends Component {
+  static contextType = Context;
   valids = [];
   invalids = [];
 
-  constructor(props) {
-    super(props);
+  constructor(props, context) {
+    super(props, context);
     this.classifier = new AnswerClassifier();
-
+    this.table = localStorage.getItem("database")
+      ? JSON.parse(localStorage.getItem("database"))[
+          this.context.state["database.key"]
+        ]
+      : {};
     this.props.answers.forEach((item) => {
       const response = {
         ...item,
         answer: item.answer.trim(),
-        sentment: analyser(item.answer),
+        question: this.props.question,
+        sentiment: analyser(item.answer),
+        manualSetting: this.table?.manualSettings?.[this.props.question]?.[
+          item.line
+        ],
       };
       const { answer } = response;
       if (
@@ -33,39 +46,82 @@ export default class AnswerPrinter extends Component {
         this.invalids.push(response);
       }
     });
+
+    this.state = {
+      component: <div></div>,
+      sets: {},
+    };
   }
 
-  categoryAnswer(type, item, items = null) {
-    const sets =
-      items === null
-        ? this.classifier.groupByCategories(type.key, this.valids)
-        : items;
-    const areas = [];
-    const answersKeys = Object.keys(sets);
-    answersKeys.forEach((set) => {
-      const content = item(sets[set]);
-      areas.push({
-        key: `${set}: ${sets[set].length}`,
-        color: set.toLowerCase(),
-        content,
-      });
-    });
+  categoryAnswer = (type, item, items = null) => {
+    const a = this.setState(
+      {
+        sets: {
+          ...(items === null
+            ? this.classifier.groupByCategories(type.key, this.valids)
+            : items),
+        },
+      },
+      () => {
+        const change = (i, k, o) => {
+          o = Str.ucfirst(o);
+          k = Str.ucfirst(k);
+          this.setState(
+            {
+              sets: {
+                ...this.state.sets,
+                [o]: this.state.sets[o].filter((j) => j.line !== i.line),
+                [k]: [{ ...i, sentimentManual: k }, ...this.state.sets[k]],
+              },
+            },
+            () => {
+              const table = JSON.parse(localStorage.getItem("database"))[
+                this.context.state["database.key"]
+              ];
+              const manualSettings = {
+                [i.question]: {
+                  ...(table?.manualSettings?.[i.question] || {}),
+                  [i.line]: {
+                    ...(table?.manualSettings?.[i.question]?.[i.line] || {}),
+                    [type.key]: k,
+                  },
+                },
+              };
 
-    if (answersKeys.length > 1) {
-      const data = {
-        labels: answersKeys,
+              const database = {
+                ...table,
+                manualSettings: {
+                  ...(table?.manualSettings || {}),
+                  ...manualSettings,
+                },
+              };
+
+              CsvExtractor.update(this.context.state["database.key"], database);
+              this.categoryAnswerChange(type, item, items, change, o);
+            }
+          );
+        };
+        this.categoryAnswerChange(type, item, items, change);
+      }
+    );
+  };
+
+  mountCategoryChart = (labels) => {
+    return {
+      data: {
+        labels,
         datasets: [
           {
             maxBarThickness: 24,
             label: false,
-            data: answersKeys.map((i) => sets[i].length),
-            backgroundColor: answersKeys.map((i, index) => {
+            data: labels.map((i) => this.state.sets[i].length),
+            backgroundColor: labels.map((i) => {
               return color.string2Hex(i);
             }),
           },
         ],
-      };
-      const options = {
+      },
+      options: {
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
@@ -93,56 +149,75 @@ export default class AnswerPrinter extends Component {
             },
           },
         },
-      };
+      },
+    };
+  };
+
+  wordCloudData = (labels) => {
+    const countWords = labels
+      .flatMap((i) =>
+        this.state.sets[i].flatMap((j) =>
+          Str.normalizeAndRemoveAllNumbers(j.answer)
+            .toLowerCase()
+            .split(" ")
+            .filter(
+              (k) =>
+                !stopwords.map((s) => Str.normalize(s)).includes(k) &&
+                k.length > 1
+            )
+        )
+      )
+      .reduce((acc, item) => {
+        acc[item] = acc[item] ? acc[item] + 1 : 1;
+        return acc;
+      }, {});
+
+    return Object.keys(countWords)
+      .sort((a, b) => countWords[b] - countWords[a])
+      .map((i) => [i, countWords[i]]);
+  };
+
+  categoryAnswerChange = (type, item, items = null, change, startsAt) => {
+    const areas = [];
+    const answersKeys = Object.keys(this.state.sets);
+
+    answersKeys.forEach((set) => {
+      const content = item(
+        this.state.sets[set],
+        set.toLowerCase(),
+        change,
+        answersKeys.map((i) => i.toLowerCase())
+      );
+      areas.push({
+        key: `${set}: ${this.state.sets[set].length}`,
+        color: set.toLowerCase(),
+        content,
+      });
+    });
+
+    if (answersKeys.length > 1) {
+      const { data, options } = this.mountCategoryChart(answersKeys);
 
       areas.push({
         key: "Chart",
-        content: (
-          <div
-            style={{
-              maxWidth: "600px",
-              width: "100%",
-              margin: "0 auto",
-              position: "relative",
-              overflow: "auto",
-            }}
-          >
+        content: () => (
+          <div className="c-chart-area">
             <Chart type={"bar"} data={data} options={options}></Chart>
           </div>
         ),
       });
+
       if (type.answers && type.answers.wordCloud) {
-        const countWords = answersKeys
-          .flatMap((i) =>
-            sets[i].flatMap((j) =>
-              Str.normalizeAndRemoveAllNumbers(j.answer)
-                .toLowerCase()
-                .split(" ")
-                .filter(
-                  (k) =>
-                    !stopwords.map((s) => Str.normalize(s)).includes(k) &&
-                    k.length > 1
-                )
-            )
-          )
-          .reduce((acc, item) => {
-            acc[item] = acc[item] ? acc[item] + 1 : 1;
-            return acc;
-          }, {});
-
-        const wordsToCloud = Object.keys(countWords)
-          .sort((a, b) => countWords[b] - countWords[a])
-          .map((i) => [i, countWords[i]]);
-
         areas.push({
           key: "Word Cloud (lento)",
-          content: <WordCloud word={wordsToCloud} />,
+          content: () => <WordCloud word={this.wordCloudData(answersKeys)} />,
         });
       }
     }
 
-    return <Suitable areas={areas} start-closed></Suitable>;
-  }
+    const component = <Suitable areas={areas} start-closed></Suitable>;
+    this.setState({ component });
+  };
 
   summaryAnswer(answers, maxText, minText) {
     const answersKeys = Object.keys(answers);
@@ -181,7 +256,7 @@ export default class AnswerPrinter extends Component {
     const areas = [
       {
         key: "Summary",
-        content: (
+        content: () => (
           <ul>
             <li>
               <b>"{max.key}"</b> {maxText} . {max.total} in total
@@ -194,7 +269,7 @@ export default class AnswerPrinter extends Component {
       },
       {
         key: "Compiled data",
-        content: (
+        content: () => (
           <ul>
             {answersKeys.map((i) => (
               <li key={key(`ctst-${i}`)}>
@@ -254,7 +329,7 @@ export default class AnswerPrinter extends Component {
 
     areas.push({
       key: "Chart",
-      content: (
+      content: () => (
         <div
           style={{
             maxWidth: "600px",
@@ -268,7 +343,8 @@ export default class AnswerPrinter extends Component {
         </div>
       ),
     });
-    return <Suitable areas={areas} />;
+    const component = <Suitable areas={areas} />;
+    this.setState({ component });
   }
 
   presentByType() {

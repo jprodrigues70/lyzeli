@@ -27,24 +27,34 @@ export default class AnswerClassifier {
     let unclassified = [...responses];
 
     responses.forEach((response) => {
-      for (let i = 0; i < avaiableClassifications.length; i++) {
-        const classification = config[avaiableClassifications[i]];
-        if (classification) {
-          const types = Object.keys(classification);
-          for (let j = 0; j < types.length; j++) {
-            if (
-              Str.finder(
-                types[j],
-                response.answer,
-                classification[types[j]],
-                false
-              )
-            ) {
-              classifications[avaiableClassifications[i]].push(response);
-              unclassified = unclassified.filter(
-                (item) => item.line !== response.line
-              );
-              break;
+      if (response?.manualSetting?.[key]) {
+        classifications[response.manualSetting[key].toLowerCase()] = [
+          ...(classifications[response.manualSetting[key].toLowerCase()] || []),
+          response,
+        ];
+        unclassified = unclassified.filter(
+          (item) => item.line !== response.line
+        );
+      } else {
+        for (let i = 0; i < avaiableClassifications.length; i++) {
+          const classification = config[avaiableClassifications[i]];
+          if (classification) {
+            const types = Object.keys(classification);
+            for (let j = 0; j < types.length; j++) {
+              if (
+                Str.finder(
+                  types[j],
+                  response.answer,
+                  classification[types[j]],
+                  false
+                )
+              ) {
+                classifications[avaiableClassifications[i]].push(response);
+                unclassified = unclassified.filter(
+                  (item) => item.line !== response.line
+                );
+                break;
+              }
             }
           }
         }
@@ -71,15 +81,18 @@ export default class AnswerClassifier {
     }, []);
   }
 
-  static groupByScore(answers) {
+  static groupByScore(answers, type = null) {
     return answers.reduce(
       (acc, item) => {
-        const opt =
-          item?.sentment?.score > 1
+        let opt =
+          item?.sentiment?.score > 1
             ? "Positive"
-            : item?.sentment?.score < -1
+            : item?.sentiment?.score < -1
             ? "Negative"
             : "Neutral";
+        if (item?.manualSetting && type && item.manualSetting[type.key]) {
+          opt = item.manualSetting[type.key];
+        }
         acc[opt] = [...acc[opt], item];
         return acc;
       },

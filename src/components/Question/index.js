@@ -9,9 +9,12 @@ export default class Question extends Component {
 
   constructor(props, context) {
     super(props, context);
-    const { rows, classifications } = this.context.state["database.table"];
+    const { rows, classifications, manualSettings } = this.context.state[
+      "database.table"
+    ];
     this.rows = rows || [];
     this.classifications = classifications || [];
+    this.manualSettings = manualSettings || [];
 
     this.state = {
       classification: this.props.classifier.getOption(
@@ -25,11 +28,14 @@ export default class Question extends Component {
       classification,
     });
 
+    const table = JSON.parse(localStorage.getItem("database"))[
+      this.context.state["database.key"]
+    ];
+
     this.classifications[this.props.position] = classification.key;
 
     CsvExtractor.update(this.context.state["database.key"], {
-      titles: this.context.state["database.table"].titles,
-      rows: this.rows,
+      ...table,
       classifications: this.classifications,
     });
   }
@@ -44,7 +50,9 @@ export default class Question extends Component {
       <div className="c-question">
         <div className="c-question__header">
           <div>
-            <h2 className="c-question__title">{this.props.title}</h2>
+            <h2 className="c-question__title">
+              {this.props.position + 1}. {this.props.title}
+            </h2>
             <p className="c-question__subtitle">
               {this.state.classification.title}
             </p>
@@ -60,6 +68,7 @@ export default class Question extends Component {
           <AnswerPane
             question-classification={this.state.classification}
             answers={answers}
+            question={this.props.position}
           ></AnswerPane>
         </div>
       </div>

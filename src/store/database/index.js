@@ -12,13 +12,16 @@ export default database = {
   state: {
     key,
     keys,
-    table: database || {
-      titles: [
-        "Upload an .tsv file formated as Google Spreadsheet does, them you will see the magic.",
-      ],
-      rows: [["Claro"], ["Com certeza"]],
-      classifications: ["yesOrNot"],
-    },
+    table: database
+      ? { ...database, manualSettings: database?.manualSettings || {} }
+      : {
+          titles: [
+            "Upload an .tsv file formated as Google Spreadsheet does, them you will see the magic.",
+          ],
+          rows: [["Claro"], ["Com certeza"]],
+          classifications: ["yesOrNot"],
+          manualSettings: {},
+        },
   },
   actions: {
     create({ commit }, payload) {
@@ -29,6 +32,9 @@ export default database = {
     },
     setKeys({ commit }, payload) {
       return commit("keys", payload);
+    },
+    setManualSettings({ commit }, payload) {
+      return commit("manualSettings", payload);
     },
     remove({ commit }, payload) {
       const local = JSON.parse(localStorage.getItem("database"));

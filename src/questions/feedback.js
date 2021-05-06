@@ -12,7 +12,7 @@ const feedback = {
   ],
   weight: 999,
   answers: {
-    printStyle: "scoreSentmentsAndCategorize",
+    printStyle: "scoreSentimentsAndCategorize",
     wordCloud: true,
   },
 };

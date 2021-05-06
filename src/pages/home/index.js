@@ -11,11 +11,11 @@ export default class Home extends Component {
     const areas = [
       {
         key: "Presentation",
-        content: <QuestionMapper />,
+        content: () => <QuestionMapper />,
       },
       {
         key: "Raw data",
-        content: <RawData></RawData>,
+        content: () => <RawData></RawData>,
       },
     ];
     return (

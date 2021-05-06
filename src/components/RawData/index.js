@@ -23,7 +23,7 @@ export default class RawData extends Component {
           <tr className="c-raw-data__tr">
             <th>#</th>
             {this.header().map((item, index) => (
-              <th key={index} className="c-raw-data__th">
+              <th key={key(`title-${index}`)} className="c-raw-data__th">
                 {item}
               </th>
             ))}
@@ -34,7 +34,10 @@ export default class RawData extends Component {
             <tr className="c-raw-data__tr" key={key(`line-${line}`)}>
               <td className="c-raw-data__td">{line}</td>
               {row.map((column, index) => (
-                <td className="c-raw-data__td" key={key(`column-${column}`)}>
+                <td
+                  className="c-raw-data__td"
+                  key={key(`column-${line}-${index}`)}
+                >
                   {column}
                 </td>
               ))}

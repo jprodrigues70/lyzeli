@@ -1,6 +1,7 @@
 import { Component } from "react";
 import key from "../../plugins/key";
 import Btn from "../Btn";
+import SuitableContent from "./Content";
 import "./style.sass";
 
 export default class Suitable extends Component {
@@ -23,12 +24,13 @@ export default class Suitable extends Component {
       <div className={`c-suitable ${this.props.className}`}>
         <div className="c-suitable__header">
           {this.props.areas.map((item) => {
+            const key = item.key.split(":")[0].trim();
             return (
               <Btn
                 color={item.color}
-                onClick={() => this.showTab(item.key)}
-                key={item.key}
-                active={item.key === this.state.visible}
+                onClick={() => this.showTab(key)}
+                key={key}
+                active={key === this.state.visible}
               >
                 {item.key}
               </Btn>
@@ -36,11 +38,10 @@ export default class Suitable extends Component {
           })}
         </div>
         <div className="c-suitable__body">
-          {this.props.areas.map((item) => {
-            return this.state.visible === item.key ? (
-              <div key={key(`suitable-${item.key}`)}>{item.content}</div>
-            ) : null;
-          })}
+          <SuitableContent
+            areas={this.props.areas}
+            visible={this.state.visible}
+          />
         </div>
       </div>
     );
