@@ -2,18 +2,17 @@ import "./style.sass";
 import key from "../../plugins/key";
 import AnswerClassifier from "../../plugins/AnswerClassifier";
 import AnswerPrinter from "../../contracts/AnswerPrinter";
-import Btn from "../Btn";
-import SentimentItem from "../SentimentItem";
 import SentimentList from "../SentimentList";
+import AnswerTreatment from "../../plugins/AnswerTreatment";
 
 export default class AnswerPane extends AnswerPrinter {
   constructor(props, context) {
     super(props, context);
   }
 
-  summarizeDates = () => {
+  summarizeDates = (type, onClick) => {
     const answers = this.valids
-      .map((i) => i.answer.split(" ")[0])
+      .map((i) => AnswerTreatment[type.key](i.answer))
       .reduce((acc, item) => {
         acc[item] = acc[item] ? acc[item] + 1 : 1;
         return acc;
@@ -25,11 +24,13 @@ export default class AnswerPane extends AnswerPrinter {
       </span>,
       <span>
         was the day that received the <b>fewest responses</b>
-      </span>
+      </span>,
+      type,
+      onClick
     );
   };
 
-  summarizeCityState = () => {
+  summarizeCityState = (type, onClick) => {
     const answers = AnswerClassifier.groupCityAnswers(this.valids);
     return this.summaryAnswer(
       answers,
@@ -38,16 +39,18 @@ export default class AnswerPane extends AnswerPrinter {
       </span>,
       <span>
         was the place that received the <b>fewest responses</b>
-      </span>
+      </span>,
+      type,
+      onClick
     );
   };
 
-  summarize = () => {
+  summarize = (type, onClick) => {
     const answers = AnswerClassifier.groupAnswers(this.valids);
-    return this.summaryAnswer(answers);
+    return this.summaryAnswer(answers, null, null, type, onClick);
   };
 
-  categorizeAndMerge = (type) => {
+  categorizeAndMerge = (type, onClick) => {
     return this.categoryAnswer(type, (set) => {
       const grouped = AnswerClassifier.groupAnswers(set);
 
@@ -55,7 +58,14 @@ export default class AnswerPane extends AnswerPrinter {
         <ul>
           {Object.keys(grouped).map((i) => (
             <li key={key(`categorie-${i}`)}>
-              <b>{i}</b>: {grouped[i]} respondents
+              {onClick ? (
+                <button className="v--link" onClick={() => onClick(i)}>
+                  <b>{i}</b>
+                </button>
+              ) : (
+                <b>{i}</b>
+              )}
+              : {grouped[i]} respondents
             </li>
           ))}
         </ul>

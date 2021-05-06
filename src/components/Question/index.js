@@ -40,8 +40,20 @@ export default class Question extends Component {
     });
   }
 
+  onClick = (item) => {
+    this.props.onAnswerClick(item, this.state.classification);
+  };
+
   render() {
-    const answers = this.rows.map((row, line) => ({
+    let answers = this.rows;
+
+    this.props.filters.forEach((f) => {
+      answers = answers.filter((i) =>
+        f.filter(i, f.params.question, f.params.answer)
+      );
+    });
+
+    answers = answers.map((row, line) => ({
       line,
       answer: row[this.props.position],
     }));
@@ -69,6 +81,7 @@ export default class Question extends Component {
             question-classification={this.state.classification}
             answers={answers}
             question={this.props.position}
+            onClick={(i) => this.onClick(i)}
           ></AnswerPane>
         </div>
       </div>

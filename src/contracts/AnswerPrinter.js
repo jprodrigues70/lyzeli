@@ -54,7 +54,7 @@ export default class AnswerPrinter extends Component {
   }
 
   categoryAnswer = (type, item, items = null) => {
-    const a = this.setState(
+    this.setState(
       {
         sets: {
           ...(items === null
@@ -219,7 +219,7 @@ export default class AnswerPrinter extends Component {
     this.setState({ component });
   };
 
-  summaryAnswer(answers, maxText, minText) {
+  summaryAnswer(answers, maxText, minText, type, onClick) {
     const answersKeys = Object.keys(answers);
     const max = answersKeys.reduce(
       (acc, key) => {
@@ -228,7 +228,7 @@ export default class AnswerPrinter extends Component {
       { total: 0 }
     );
 
-    const min = answersKeys.reduce(
+    const min = answersKeys.reverse().reduce(
       (acc, key) => {
         return answers[key] < acc.total || acc.total === 0
           ? { key, total: answers[key] }
@@ -252,20 +252,53 @@ export default class AnswerPrinter extends Component {
         was the option that you received the <b>fewest responses</b>
       </span>
     );
-
+    let content = (
+      <ul>
+        <li>
+          "
+          {onClick ? (
+            <button className="v--link" onClick={() => onClick(max.key)}>
+              <b>{max.key}</b>
+            </button>
+          ) : (
+            max.key
+          )}
+          " {maxText} . {max.total} in total
+        </li>
+        <li>
+          "
+          {onClick ? (
+            <button className="v--link" onClick={() => onClick(min.key)}>
+              <b>{min.key}</b>
+            </button>
+          ) : (
+            min.key
+          )}
+          " {minText}. {min.total} in total
+        </li>
+      </ul>
+    );
+    if (max.key === min.key) {
+      content = (
+        <ul>
+          <li>
+            "
+            {onClick ? (
+              <button className="v--link" onClick={() => onClick(max.key)}>
+                <b>{max.key}</b>
+              </button>
+            ) : (
+              max.key
+            )}
+            " {maxText} . {max.total} in total
+          </li>
+        </ul>
+      );
+    }
     const areas = [
       {
         key: "Summary",
-        content: () => (
-          <ul>
-            <li>
-              <b>"{max.key}"</b> {maxText} . {max.total} in total
-            </li>
-            <li>
-              <b>"{min.key}"</b> {minText}. {min.total} in total
-            </li>
-          </ul>
-        ),
+        content: () => content,
       },
       {
         key: "Compiled data",
@@ -273,7 +306,14 @@ export default class AnswerPrinter extends Component {
           <ul>
             {answersKeys.map((i) => (
               <li key={key(`ctst-${i}`)}>
-                {i}: {answers[i]}
+                {onClick ? (
+                  <button className="v--link" onClick={() => onClick(i)}>
+                    <b>{i}</b>
+                  </button>
+                ) : (
+                  i
+                )}
+                : {answers[i]}
               </li>
             ))}
           </ul>
@@ -354,7 +394,7 @@ export default class AnswerPrinter extends Component {
       type.answers &&
       type.answers.printStyle &&
       this[`${type.answers.printStyle}`] &&
-      this[`${type.answers.printStyle}`](type)
+      this[`${type.answers.printStyle}`](type, this.props.onClick)
     );
   }
 }

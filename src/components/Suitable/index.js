@@ -1,5 +1,4 @@
 import { Component } from "react";
-import key from "../../plugins/key";
 import Btn from "../Btn";
 import SuitableContent from "./Content";
 import "./style.sass";
