@@ -12,12 +12,32 @@ import stopwords from "../phrases/stopwords";
 import Str from "../plugins/Str";
 import "./style.sass";
 import CsvExtractor from "../plugins/CsvExtractor";
-
+import pattern from "patternomaly";
 export default class AnswerPrinter extends Component {
   static contextType = Context;
   valids = [];
   invalids = [];
-
+  patterns = [
+    "plus",
+    "cross",
+    "dash",
+    "cross-dash",
+    "dot",
+    "dot-dash",
+    "disc",
+    "ring",
+    "line",
+    "line-vertical",
+    "weave",
+    "zigzag",
+    "zigzag-vertical",
+    "diagonal",
+    "diagonal-right-left",
+    "square",
+    "box",
+    "diamond",
+    "diamond-box",
+  ];
   constructor(props, context) {
     super(props, context);
     this.classifier = new AnswerClassifier();
@@ -115,8 +135,13 @@ export default class AnswerPrinter extends Component {
             maxBarThickness: 24,
             label: false,
             data: labels.map((i) => this.state.sets[i].length),
-            backgroundColor: labels.map((i) => {
-              return color.string2Hex(i);
+            backgroundColor: labels.map((i, index) => {
+              const p = this.patterns[index]
+                ? this.patterns[index]
+                : this.patterns[
+                    Math.floor(Math.random() * this.patterns.length)
+                  ];
+              return pattern.draw(p, color.string2Hex(i), "#FFF", 13);
             }),
           },
         ],
@@ -201,7 +226,7 @@ export default class AnswerPrinter extends Component {
       areas.push({
         key: "Chart",
         content: () => (
-          <div className="c-chart-area">
+          <div className="c-chart-area" style={{ maxWidth: "600px" }}>
             <Chart type={"bar"} data={data} options={options}></Chart>
           </div>
         ),
@@ -329,10 +354,15 @@ export default class AnswerPrinter extends Component {
           data: answersKeys.map((i) => answers[i]),
           backgroundColor: answersKeys.map((i, index) => {
             const j = answersKeys.length - index;
+
+            const p = this.patterns[index]
+              ? this.patterns[index]
+              : this.patterns[Math.floor(Math.random() * this.patterns.length)];
+
             if (j < 10 && j >= 0) {
-              return color.firstTemColors(j);
+              return pattern.draw(p, color.firstTemColors(j), "#FFF", 13);
             }
-            return color.string2Hex(i);
+            return pattern.draw(p, color.string2Hex(i), "#FFF", 13);
           }),
         },
       ],
@@ -370,15 +400,7 @@ export default class AnswerPrinter extends Component {
     areas.push({
       key: "Chart",
       content: () => (
-        <div
-          style={{
-            maxWidth: "600px",
-            width: "100%",
-            margin: "0 auto",
-            position: "relative",
-            overflow: "auto",
-          }}
-        >
+        <div className="c-chart-area">
           <Chart type={"pie"} data={data} options={options}></Chart>
         </div>
       ),

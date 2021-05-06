@@ -76,7 +76,7 @@ export default class QuestionMapper extends Component {
         },
       },
     ];
-    console.log(filters);
+
     this.setState({
       filters,
       phrase: this.getPhrase(filters),
