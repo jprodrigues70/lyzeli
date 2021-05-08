@@ -3,17 +3,20 @@ import negatives from "../phrases/negatives";
 const negativeOrList = {
   title: "Negative or list",
   key: "negativeOrList",
-  includes: [
-    "quais ",
-    "sua opinião",
-    "opine",
-    "você sugere",
-    "você acha",
-    "justifique",
-    "você considera",
-    "você concorda",
-    "você está de acordo",
-  ],
+  includes: {
+    ptBr: [
+      "quais ",
+      "sua opinião",
+      "opine",
+      "você sugere",
+      "você acha",
+      "justifique",
+      "você considera",
+      "você concorda",
+      "você está de acordo",
+    ],
+    en: ["what action", "what", "please detail"],
+  },
   answers: {
     alias: {
       unclassified: "Others",

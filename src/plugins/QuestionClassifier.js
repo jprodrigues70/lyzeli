@@ -23,7 +23,9 @@ export default class QuestionClassifier {
       );
 
       for (let j = 0; j < positions.length; j++) {
-        if (Str.finder(positions[j], question, option[positions[j]], true)) {
+        if (
+          Str.finder(positions[j], question, option[positions[j]]["en"], true)
+        ) {
           return option;
         }
       }

@@ -2,6 +2,7 @@ import { Component } from "react";
 import Suitable from "../components/Suitable";
 import AnswerClassifier from "../plugins/AnswerClassifier";
 import analyser from "sentiment-ptbr";
+import Sentiment from "sentiment";
 import key from "../plugins/key";
 import { Context } from "../store";
 
@@ -46,12 +47,13 @@ export default class AnswerPrinter extends Component {
           this.context.state["database.key"]
         ]
       : {};
+    const an = new Sentiment();
     this.props.answers.forEach((item) => {
       const response = {
         ...item,
         answer: item.answer.trim(),
         question: this.props.question,
-        sentiment: analyser(item.answer),
+        sentiment: an.analyze(item.answer),
         manualSetting: this.table?.manualSettings?.[this.props.question]?.[
           item.line
         ],
@@ -187,7 +189,7 @@ export default class AnswerPrinter extends Component {
             .split(" ")
             .filter(
               (k) =>
-                !stopwords.map((s) => Str.normalize(s)).includes(k) &&
+                !stopwords["en"].map((s) => Str.normalize(s)).includes(k) &&
                 k.length > 1
             )
         )

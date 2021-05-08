@@ -32,6 +32,7 @@ export default class Str {
     const normalizer = removeNumbers
       ? "normalizeAndRemoveNumbers"
       : "normalize";
+
     const found = options.find((item) =>
       this[normalizer](text).trim()[type](this[normalizer](item))
     );

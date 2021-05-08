@@ -4,19 +4,22 @@ import positives from "../phrases/positives";
 const terms = {
   title: "Terms And Conditions",
   key: "terms",
-  includes: [
-    "aceitar participar",
-    "aceito participar",
-    "concordar e continuar",
-    "concordo com os termos",
-    "concordo em continuar",
-    "li e concordo",
-    "li e estou de acordo",
-    "termos de uso",
-    "termos e condições",
-    "de acordo com nossos termos",
-    "de acordo com os termos",
-  ],
+  includes: {
+    ptBr: [
+      "aceitar participar",
+      "aceito participar",
+      "concordar e continuar",
+      "concordo com os termos",
+      "concordo em continuar",
+      "li e concordo",
+      "li e estou de acordo",
+      "termos de uso",
+      "termos e condições",
+      "de acordo com nossos termos",
+      "de acordo com os termos",
+    ],
+    en: ["I agree", "consent form"],
+  },
   answers: {
     classification: {
       negative: {

@@ -45,7 +45,7 @@ export default class AnswerClassifier {
                 Str.finder(
                   types[j],
                   response.answer,
-                  classification[types[j]],
+                  classification[types[j]]["en"],
                   false
                 )
               ) {

@@ -1,24 +1,33 @@
 const groupsInAnswer = {
   title: "Groups in answer",
   key: "groupsInAnswer",
-  startsWith: [
-    "onde você",
-    "escolha",
-    "Qual o seu nível de",
-    "Há quanto tempo",
-    "em qual",
-    "quantos anos",
-    "o quanto você",
-    "quais tipos",
-  ],
-  includes: [
-    "quanto tempo",
-    "quantos anos",
-    "o quanto ",
-    "quanto ao",
-    "quanto à",
-  ],
-  endsWith: [":", "a seguir.", "a seguir:", "seguintes:", "seguintes."],
+  startsWith: {
+    ptBr: [
+      "onde você",
+      "escolha",
+      "Qual o seu nível de",
+      "Há quanto tempo",
+      "em qual",
+      "quantos anos",
+      "o quanto você",
+      "quais tipos",
+    ],
+    en: ["how often", "have you ever"],
+  },
+  includes: {
+    ptBr: [
+      "quanto tempo",
+      "quantos anos",
+      "o quanto ",
+      "quanto ao",
+      "quanto à",
+    ],
+    en: ["how long", "what is", "what title"],
+  },
+  endsWith: {
+    ptBr: [":", "a seguir.", "a seguir:", "seguintes:", "seguintes."],
+    en: [":", "follows"],
+  },
   weight: 9,
   answers: {
     printStyle: "summarize",
