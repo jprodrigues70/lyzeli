@@ -13,6 +13,7 @@ import Str from "../plugins/Str";
 import "./style.sass";
 import CsvExtractor from "../plugins/CsvExtractor";
 import pattern from "patternomaly";
+import CountWords from "../components/CountWords";
 export default class AnswerPrinter extends Component {
   static contextType = Context;
   valids = [];
@@ -178,24 +179,31 @@ export default class AnswerPrinter extends Component {
     };
   };
 
-  wordCloudData = (labels) => {
-    const countWords = labels
+  countWords = (labels) => {
+    return labels
       .flatMap((i) =>
-        this.state.sets[i].flatMap((j) =>
-          Str.normalizeAndRemoveAllNumbers(j.answer)
+        this.state.sets[i].flatMap((j) => {
+          const raw = Str.normalizeAndRemoveAllNumbers(j.answer)
             .toLowerCase()
+            .replace("'", "")
+            .replace("/", " ")
             .split(" ")
             .filter(
               (k) =>
                 !stopwords.map((s) => Str.normalize(s)).includes(k) &&
                 k.length > 1
-            )
-        )
+            );
+          return [...new Set(raw)];
+        })
       )
       .reduce((acc, item) => {
         acc[item] = acc[item] ? acc[item] + 1 : 1;
         return acc;
       }, {});
+  };
+
+  wordCloudData = (labels) => {
+    const countWords = this.countWords(labels);
 
     return Object.keys(countWords)
       .sort((a, b) => countWords[b] - countWords[a])
@@ -236,6 +244,11 @@ export default class AnswerPrinter extends Component {
         areas.push({
           key: "Word Cloud (lento)",
           content: () => <WordCloud word={this.wordCloudData(answersKeys)} />,
+        });
+
+        areas.push({
+          key: "Count Words",
+          content: () => <CountWords words={this.countWords(answersKeys)} />,
         });
       }
     }
