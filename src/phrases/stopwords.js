@@ -390,5 +390,8 @@ const stopwords = [
   "vir",
   "vós",
   "assim",
+  "conheco",
+  "desconheco",
+  "ouvi",
 ];
 export default stopwords;
