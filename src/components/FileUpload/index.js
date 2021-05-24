@@ -14,7 +14,7 @@ export default class FileUpload extends Component {
           onChange={(event) => this.props.onChange(event)}
         />
         <div className="c-file-upload__false-btn">
-          <Upload></Upload>Upload a TSV file
+          <Upload></Upload>SELECT FILE
         </div>
       </div>
     );

@@ -6,10 +6,6 @@ import SentimentList from "../SentimentList";
 import AnswerTreatment from "../../plugins/AnswerTreatment";
 
 export default class AnswerPane extends AnswerPrinter {
-  constructor(props, context) {
-    super(props, context);
-  }
-
   summarizeDates = (type, onClick) => {
     const answers = this.valids
       .map((i) => AnswerTreatment[type.key](i.answer))

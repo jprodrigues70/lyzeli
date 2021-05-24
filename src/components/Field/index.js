@@ -10,17 +10,20 @@ export default class Field extends Component {
         </label>
         <fieldset className="c-field__fieldset">
           <input
-            ref="input"
             className="c-field__input"
             disabled={this.props.disabled}
             required={this.props.required}
             placeholder={this.props.placeholder}
-            autocapitalize={this.props.autocapitalize}
-            autocomplete={this.props.autocomplete}
-            autocorrect={this.props.autocorrect}
+            autoCapitalize={this.props.autocapitalize}
+            autoComplete={this.props.autocomplete}
+            autoCorrect={this.props.autocorrect}
             value={this.props.modelValue}
-            readonly={this.props.readonly}
+            readOnly={this.props.readonly}
             type={this.props.type || "text"}
+            onChange={
+              this.props.onChange &&
+              ((str) => this.props.onChange(str.target.value))
+            }
           />
           {/* onInput="input" */}
         </fieldset>

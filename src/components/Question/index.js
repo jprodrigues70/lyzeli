@@ -9,9 +9,8 @@ export default class Question extends Component {
 
   constructor(props, context) {
     super(props, context);
-    const { rows, classifications, manualSettings } = this.context.state[
-      "database.table"
-    ];
+    const { rows, classifications, manualSettings } =
+      this.context.state["database.table"];
     this.rows = rows || [];
     this.classifications = classifications || [];
     this.manualSettings = manualSettings || [];
@@ -28,13 +27,18 @@ export default class Question extends Component {
       classification,
     });
 
-    const table = JSON.parse(localStorage.getItem("database"))[
-      this.context.state["database.key"]
-    ];
+    const table = JSON.parse(localStorage.getItem("database"));
 
     this.classifications[this.props.position] = classification.key;
 
-    CsvExtractor.update(this.context.state["database.key"], {
+    this.context.dispatch({
+      action: "database.setChanges",
+      payload: this.context.state["database.changes"]
+        ? this.context.state["database.changes"] + 1
+        : 1,
+    });
+
+    CsvExtractor.update({
       ...table,
       classifications: this.classifications,
     });
@@ -66,7 +70,7 @@ export default class Question extends Component {
               {this.props.position + 1}. {this.props.title}
             </h2>
             <p className="c-question__subtitle">
-              {this.state.classification.title}
+              {this.state.classification?.title}
             </p>
           </div>
           <div className="c-question__settings">

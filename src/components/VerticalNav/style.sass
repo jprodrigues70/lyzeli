@@ -8,6 +8,7 @@
     display: flex
     align-items: center
     padding: 16px
+    justify-content: center
   &__body
     padding: 16px
     height: 100%
@@ -17,13 +18,16 @@
     padding: 0
     margin: 0
     padding-top: 8px
+    display: grid
+    grid-gap: 2px
     &-item
-      padding: 8px 16px
+      padding: 8px 12px
       cursor: pointer
       display: grid
-      grid-template-columns: 1fr 16px
+      grid-template-columns: 16px auto
       align-items: center
       border-radius: 8px
+      grid-gap: 8px
       &__close
         display: none
         background-color: #e3e3e4
@@ -32,8 +36,12 @@
         border-radius: 8px
         color: #285488
         padding: 1px
-      &:hover, &--active
-        background-color: #285488
+      &:hover
+        background-color: rgba(0, 0, 0, 0.1)
+      &--active
+        background-color: rgba(43, 164, 216, 0.27)
+        &:hover
+          background-color: rgba(43, 164, 216, 0.37)
       &:hover
         .c-vertical-nav__list-item__close
           display: flex

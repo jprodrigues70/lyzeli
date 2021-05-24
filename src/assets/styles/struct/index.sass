@@ -2,7 +2,7 @@
   --default-grey: #e3e3e4
   --darken-default-grey: darken(#e3e3e4, 4)
   --aries-orange: #d3522a
-
+  --dark: #010409
 *, *:before, *:after
   box-sizing: border-box
   margin: 0
@@ -29,9 +29,10 @@ a
   &:hover
     color: darken(#067bc2, 15)
 
-[disabled="true"]
+[disabled="true"], [disabled]
   opacity: .6
-  cursor: wait!important
+  cursor: not-allowed !important
+  color: inherit
 
 .router-link-active
   font-weight: 700
@@ -133,6 +134,10 @@ a
   cursor: pointer
 
 .v--bg
+  &-dark
+    background-color: var(--dark) !important
+    border-color: var(--dark) !important
+    color: #FFF
   &-aries-orange
     background-color: var(--aries-orange) !important
     color: #FFF !important

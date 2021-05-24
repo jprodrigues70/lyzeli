@@ -1,7 +1,7 @@
 
 .c-header
   height: 100%
-  box-shadow: inset 0px -1px 0px #f3f4f4
+  box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.1)
   width: 100%
   display: flex
   align-items: center
@@ -9,9 +9,15 @@
   padding: 0 5%
   @media (max-width: 768px)
     padding: 0 8px
+  &__avatar
+    width: 40px
+    height: 40px
+    border-radius: 8px
   &__logo
+    display: none
     @media (max-width: 768px)
-      width: 40px
+      display: block
+      width: 30px
   &__nav
     display: flex
     align-items: center
@@ -50,12 +56,21 @@
         color: #2c3e50!important
         &.v--dark
           color: #f0f6fc !important
+  &__left
+    display: flex
+    gap: 8px
+    align-items: center
+    @media (min-width: 769px)
+      &:first-child
+        opacity: 0
+        pointer-events: none
   &__right
     display: flex
     gap: 8px
+    align-items: center
     @media (max-width: 768px)
       & > *
-        &:not(:first-child)
+        &:last-child
           display: none
   &__menu
     &-toggle

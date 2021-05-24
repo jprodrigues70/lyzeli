@@ -1,55 +1,96 @@
 import { Component, createRef } from "react";
-import FileUpload from "../FileUpload";
 import { Context } from "../../store";
 import CsvExtractor from "../../plugins/CsvExtractor";
-import "./style.sass";
+import axios from "axios";
+import { withRouter } from "react-router-dom";
+import { ReactComponent as Li } from "../../assets/li.svg";
+import { ReactComponent as Settings } from "../../assets/settings.svg";
+import { ReactComponent as Menu } from "../../assets/menu.svg";
+import { ReactComponent as Logout } from "../../assets/log-out.svg";
 
-export default class Header extends Component {
+import "./style.sass";
+import Btn from "../Btn";
+import Modal from "../Modal";
+import VerticalNav from "../VerticalNav";
+
+class Header extends Component {
   static contextType = Context;
 
   constructor(props) {
     super(props);
-    this.state = { database: {} };
+    this.state = { database: {}, user: {}, showModal: false };
     this.form = createRef();
   }
 
-  openFile = ({ target }) => {
-    const reader = new FileReader();
-    const { dispatch } = this.context;
-    if (target.files && target.files.length) {
-      dispatch({ action: "database.create", payload: {} });
-      dispatch({ action: "loading.database", payload: true });
-      reader.readAsText(target.files[0]);
+  componentDidMount() {
+    const token = localStorage.getItem("token");
 
-      reader.onload = () => {
-        const database = new CsvExtractor(reader.result);
-        const key = database.persist();
+    axios
+      .get(`https://api.github.com/user`, {
+        headers: {
+          Authorization: `token ${token}`,
+        },
+      })
+      .then((res) => {
+        const user = res.data;
+        localStorage.setItem("user", JSON.stringify(user));
+        this.setState({ user });
+      })
+      .catch(() => {
+        this.props.history.push("/");
+      });
+  }
 
-        const keys = JSON.parse(localStorage.getItem("database")) || {};
+  logout = () => {
+    localStorage.clear();
+    this.props.history.push("/");
+  };
 
-        dispatch({
-          action: "database.setKeys",
-          payload: [...Object.keys(keys)],
-        });
-
-        dispatch({ action: "database.setKey", payload: key });
-        dispatch({ action: "database.create", payload: database });
-        dispatch({ action: "loading.database", payload: false });
-        this.form.current.reset();
-      };
-    }
-
-    return;
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
   };
 
   render() {
     return (
       <header className={`c-header ${this.props.className || ""}`}>
-        <form ref={this.form}>
-          <FileUpload onChange={(event) => this.openFile(event)} />
-        </form>
+        <div className="c-header__left">
+          <Btn
+            className="v--bg-white"
+            outline
+            small
+            onClick={() => this.toggleModal()}
+          >
+            <Menu />
+          </Btn>
+          {this.state.showModal ? (
+            <Modal title="Menu" onClose={() => this.toggleModal()} small>
+              <VerticalNav />
+            </Modal>
+          ) : null}
+          <Li className="c-header__logo" />
+        </div>
         <div className="c-header__right">
-          <a
+          <Btn className="v--bg-white" outline two-columns>
+            <Settings />
+            Settings
+          </Btn>
+          <Btn
+            className="v--bg-white"
+            outline
+            two-columns
+            onClick={() => this.logout()}
+          >
+            <Logout />
+            Logout
+          </Btn>
+          <img
+            className="c-header__avatar"
+            src={this.state.user.avatar_url}
+            alt={this.state.user.name}
+          />
+          {/* <a
             className="github-button"
             href="https://github.com/jprodrigues70/tsv-explorer"
             data-color-scheme="no-preference: dark; light: dark; dark: dark;"
@@ -79,9 +120,10 @@ export default class Header extends Component {
             aria-label="Issue jprodrigues70/tsv-explorer on GitHub"
           >
             Issue
-          </a>
+          </a> */}
         </div>
       </header>
     );
   }
 }
+export default withRouter(Header);

@@ -16,32 +16,27 @@ export default class CsvExtractor {
 
   persist() {
     let database = JSON.parse(localStorage.getItem("database"));
-    const key = new Date().getTime();
+
     database = {
-      ...database,
-      [key]: {
-        titles: this.titles,
-        rows: this.rows,
-        classifications: this.classifications,
-        manualSettings: {},
-      },
+      titles: this.titles,
+      rows: this.rows,
+      classifications: this.classifications,
+      manualSettings: {},
     };
+
     localStorage.setItem("database", JSON.stringify(database));
-    return key;
   }
 
-  static update(key = null, obj = null) {
+  static update(obj = null) {
     let database = JSON.parse(localStorage.getItem("database"));
 
     database = {
-      ...database,
-      [key]: {
-        titles: obj.titles,
-        rows: obj.rows,
-        classifications: obj.classifications,
-        manualSettings: obj.manualSettings,
-      },
+      titles: obj.titles,
+      rows: obj.rows,
+      classifications: obj.classifications,
+      manualSettings: obj.manualSettings,
     };
+
     localStorage.setItem("database", JSON.stringify(database));
   }
 }

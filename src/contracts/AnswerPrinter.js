@@ -42,20 +42,16 @@ export default class AnswerPrinter extends Component {
   constructor(props, context) {
     super(props, context);
     this.classifier = new AnswerClassifier();
-    this.table = localStorage.getItem("database")
-      ? JSON.parse(localStorage.getItem("database"))[
-          this.context.state["database.key"]
-        ]
-      : {};
+
+    this.table = JSON.parse(localStorage.getItem("database")) || {};
     this.props.answers.forEach((item) => {
       const response = {
         ...item,
         answer: item.answer.trim(),
         question: this.props.question,
         sentiment: analyser(item.answer),
-        manualSetting: this.table?.manualSettings?.[this.props.question]?.[
-          item.line
-        ],
+        manualSetting:
+          this.table?.manualSettings?.[this.props.question]?.[item.line],
       };
       const { answer } = response;
       if (
@@ -96,9 +92,7 @@ export default class AnswerPrinter extends Component {
               },
             },
             () => {
-              const table = JSON.parse(localStorage.getItem("database"))[
-                this.context.state["database.key"]
-              ];
+              const table = JSON.parse(localStorage.getItem("database"));
               const manualSettings = {
                 [i.question]: {
                   ...(table?.manualSettings?.[i.question] || {}),
@@ -117,7 +111,7 @@ export default class AnswerPrinter extends Component {
                 },
               };
 
-              CsvExtractor.update(this.context.state["database.key"], database);
+              CsvExtractor.update(database);
               this.categoryAnswerChange(type, item, items, change, o);
             }
           );
@@ -426,10 +420,10 @@ export default class AnswerPrinter extends Component {
     const type = this.props["question-classification"];
 
     return (
-      type.answers &&
-      type.answers.printStyle &&
-      this[`${type.answers.printStyle}`] &&
-      this[`${type.answers.printStyle}`](type, this.props.onClick)
+      type?.answers &&
+      type?.answers.printStyle &&
+      this[`${type?.answers.printStyle}`] &&
+      this[`${type?.answers.printStyle}`](type, this.props.onClick)
     );
   }
 }

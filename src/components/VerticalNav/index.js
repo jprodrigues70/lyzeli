@@ -1,12 +1,24 @@
 import { Component } from "react";
 import "./style.sass";
 import { Context } from "../../store";
-import Btn from "../Btn";
 
+import FileUpload from "../FileUpload";
 import Modal from "../Modal";
-import Field from "../Field";
-import { ReactComponent as Remove } from "../../assets/close.svg";
 
+import axios from "axios";
+// import { ReactComponent as Remove } from "../../assets/close.svg";
+import { ReactComponent as Logo } from "../../assets/Lyzeli.svg";
+import { ReactComponent as Db } from "../../assets/database.svg";
+import Btn from "../Btn";
+import NewTsv from "../NewTsv";
+
+let token = localStorage.getItem("token");
+
+const headers = {
+  Authorization: `token ${token}`,
+  accept: "application/vnd.github.v3+json",
+  "Content-Type": "application/json",
+};
 export default class VerticalNav extends Component {
   static contextType = Context;
 
@@ -15,30 +27,75 @@ export default class VerticalNav extends Component {
 
     this.state = {
       showModal: false,
+      items: [],
+      current: localStorage.getItem("current"),
     };
   }
 
-  remove = (event, item) => {
-    event.stopPropagation();
-    const { dispatch, state } = this.context;
-
-    const keys = state["database.keys"].filter(
-      (i) => parseInt(i) !== parseInt(item.value)
-    );
-
-    dispatch({ action: "database.remove", payload: item.value });
-
-    if (this.context.state["database.key"] === item.value) {
-      if (keys.length) {
-        const position = keys.length - 1;
-        const key = keys[position];
-        this.change(key);
-      } else {
-        dispatch({ action: "database.create", payload: {} });
-        dispatch({ action: "database.setKey", payload: "" });
-      }
-    }
+  state = {
+    loading: true,
+    items: [],
   };
+
+  componentDidMount() {
+    const repo = localStorage.getItem("repo");
+
+    if (repo) {
+      axios
+        .get(`https://api.github.com/repos/${repo}/contents/database`, {
+          headers,
+        })
+        .then((res) => {
+          const hasDatabase = res.data.find(
+            (i) => i.path === "database/.lyzeli"
+          );
+          if (hasDatabase) {
+            this.setState({
+              items: res.data.filter(
+                (i) =>
+                  i.path !== "database/.lyzeli" &&
+                  i.path.startsWith("database/")
+              ),
+            });
+            const current = localStorage.getItem("current");
+            const sha =
+              !current && this.state.items.length
+                ? this.state.items[0].sha
+                : current;
+
+            if (sha) {
+              this.getDatabase(sha);
+            }
+          }
+        });
+    }
+  }
+
+  getDatabase(sha) {
+    this.setState({ loading: true });
+    this.props.onLoadChange && this.props.onLoadChange(this.state.loading);
+    const repo = localStorage.getItem("repo");
+    axios
+      .get(`https://api.github.com/repos/${repo}/git/blobs/${sha}`, {
+        headers,
+      })
+      .then((res) => {
+        const str = Buffer.from(res.data.content, "base64").toString("utf8");
+        const database = JSON.parse(str);
+
+        localStorage.setItem("database", JSON.stringify(database));
+        localStorage.setItem("current", sha);
+
+        this.context.dispatch({
+          action: "database.create",
+          payload: database,
+        });
+      })
+      .finally(() => {
+        this.setState({ loading: false });
+        this.props.onLoadChange && this.props.onLoadChange(this.state.loading);
+      });
+  }
 
   toggleModal = () => {
     this.setState({
@@ -47,75 +104,46 @@ export default class VerticalNav extends Component {
   };
 
   isActive = (item) => {
-    return (
-      parseInt(item.value) === parseInt(this.context.state["database.key"])
-    );
+    return item.sha === this.state.current;
   };
 
-  change(key) {
-    const local = JSON.parse(localStorage.getItem("database"));
-
-    if (!key || !local) {
-      return;
-    }
-
-    const database = local[key];
-    const { dispatch } = this.context;
-
-    dispatch({ action: "database.create", payload: database });
-    dispatch({ action: "database.setKey", payload: key });
-  }
+  change = (item) => {
+    this.setState({
+      current: item.sha,
+    });
+    this.props.onChange(item.sha);
+  };
 
   render() {
     return (
       <nav className={`c-vertical-nav ${this.props.className || ""}`}>
-        {this.state.showModal ? (
-          <Modal title="Login" onClose={() => this.toggleModal()} small>
-            <Field label="Insira o seu token do GitHub"></Field>
-            <Field label="Qual o repositório?"></Field>
-            <p>
-              <small>
-                O token ficará gravado localmente, para que você não precise
-                voltar no GitHub quando quiser usar a plataforma novamente.
-                Sendo assim, lembre-se de sair, caso esteja em um computador que
-                não confia.
-              </small>
-            </p>
-            <div style={{ margin: "8px 0" }}>
-              <Btn>ENTRAR E SALVAR</Btn>
-            </div>
-            <p>
-              <small>
-                Para criar um token no GitHub, basta acessar
-                <a href="https://github.com/settings/tokens">
-                  https://github.com/settings/tokens
-                </a>
-                . Dê todas as permissões do tipo "repo", e a opção "read:user".
-              </small>
-            </p>
-          </Modal>
-        ) : null}
-        <div className="c-vertical-nav__header">TSV Data</div>
+        <div className="c-vertical-nav__header">
+          <Logo />
+        </div>
         <div className="c-vertical-nav__body">
-          <p>You .tsv files:</p>
-          {this.props.items.length ? (
+          <NewTsv />
+          <Btn block className="v--bg-dark">
+            IMPORT NEW DATASET
+          </Btn>
+          {this.state.items.length ? (
             <ul className="c-vertical-nav__list">
-              {this.props.items.reverse().map((item) => {
+              {this.state.items.reverse().map((item) => {
                 return (
                   <li
                     className={`c-vertical-nav__list-item ${
                       this.isActive(item) && `c-vertical-nav__list-item--active`
                     }`}
-                    key={item.key}
-                    onClick={() => this.change(item.value)}
+                    key={item.path}
+                    onClick={() => this.change(item)}
                   >
-                    <span>{item.name}</span>
-                    <span
+                    <Db />
+                    <span>{item.name.replace(".json", "")}</span>
+                    {/* <span
                       className="c-vertical-nav__list-item__close"
                       onClick={(event) => this.remove(event, item)}
                     >
                       <Remove></Remove>
-                    </span>
+                    </span> */}
                   </li>
                 );
               })}
