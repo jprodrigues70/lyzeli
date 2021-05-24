@@ -11,6 +11,7 @@ import "./style.sass";
 import Btn from "../Btn";
 import Modal from "../Modal";
 import VerticalNav from "../VerticalNav";
+import { ParallelContext } from "../../parallelStore";
 
 class Header extends Component {
   static contextType = Context;
@@ -59,7 +60,14 @@ class Header extends Component {
           </Btn>
           {this.state.showModal ? (
             <Modal title="Menu" onClose={this.toggleModal} small>
-              <VerticalNav />
+              <ParallelContext.Consumer>
+                {(parallel) => (
+                  <VerticalNav
+                    onChange={this.toggleModal}
+                    parallel={parallel}
+                  />
+                )}
+              </ParallelContext.Consumer>
             </Modal>
           ) : null}
           <Li className="c-header__logo" />

@@ -144,6 +144,10 @@ export default class VerticalNav extends Component {
     });
 
     this.getDatabase(item.sha);
+
+    if (this.props.onChange) {
+      this.props.onChange(item);
+    }
   };
 
   closeImportModal = () => {
