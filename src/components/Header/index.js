@@ -73,10 +73,10 @@ class Header extends Component {
           <Li className="c-header__logo" />
         </div>
         <div className="c-header__right">
-          <Btn className="v--bg-white" outline two-columns>
+          {/* <Btn className="v--bg-white" outline two-columns>
             <Settings />
             Settings
-          </Btn>
+          </Btn> */}
           <Btn
             className="v--bg-white"
             outline
@@ -91,37 +91,6 @@ class Header extends Component {
             src={this.state.user.avatar_url}
             alt={this.state.user.name}
           />
-          {/* <a
-            className="github-button"
-            href="https://github.com/jprodrigues70/tsv-explorer"
-            data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-            data-icon="octicon-star"
-            data-size="large"
-            data-show-count="true"
-            aria-label="Star jprodrigues70/tsv-explorer on GitHub"
-          >
-            Star
-          </a>
-          <a
-            className="github-button"
-            href="https://github.com/jprodrigues70/tsv-explorer/fork"
-            data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-            data-icon="octicon-repo-forked"
-            data-size="large"
-            aria-label="Fork jprodrigues70/tsv-explorer on GitHub"
-          >
-            Fork
-          </a>
-          <a
-            className="github-button"
-            href="https://github.com/jprodrigues70/tsv-explorer/issues"
-            data-color-scheme="no-preference: dark; light: dark; dark: dark;"
-            data-icon="octicon-issue-opened"
-            data-size="large"
-            aria-label="Issue jprodrigues70/tsv-explorer on GitHub"
-          >
-            Issue
-          </a> */}
         </div>
       </header>
     );

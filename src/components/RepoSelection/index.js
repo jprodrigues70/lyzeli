@@ -106,14 +106,6 @@ class RepoSelection extends Component {
             <h1 className="c-repo-selection__title">
               In which GitHub repo do you want to save Lyzeli's data?
             </h1>
-            {/* <p className="c-repo-selection__subtitle">Please choose one.</p> */}
-            {/* <div className="c-repo-selection__items">
-              {this.state.repos.map((i) => (
-                <div className="c-repo-selection__item" key={i.id}>
-                {i.full_name}
-                </div>
-              ))}
-            </div> */}
             <p className="c-repo-selection__subtitle">
               Insert the repo full URL:
             </p>
