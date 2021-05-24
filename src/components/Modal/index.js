@@ -31,10 +31,7 @@ class Modal extends React.Component {
           this.props.small && "c-modal--small"
         } ${this.props.top && "c-modal--top"}`}
       >
-        <div
-          className="c-modal__overlay"
-          onClick={() => this.props.onClose()}
-        />
+        <div className="c-modal__overlay" onClick={this.props.onClose} />
         <div className="c-modal__window">
           <div className="c-modal__window-header">
             <div>
@@ -45,7 +42,7 @@ class Modal extends React.Component {
             <Btn
               circle
               className="c-modal__window-close"
-              onClick={() => this.props.onClose()}
+              onClick={this.props.onClose}
             >
               <Close></Close>
             </Btn>

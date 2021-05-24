@@ -3,12 +3,12 @@ import QuestionClassifier from "./QuestionClassifier";
 export default class CsvExtractor {
   rows = [];
   titles = [];
-  constructor(raw) {
+  constructor(raw, language) {
     const splitedRaw = raw.split(/\r?\n|\r/);
     this.titles = splitedRaw.shift().split(/\t/);
     this.rows = splitedRaw.map((row) => row.split(/\t/));
-    const classifier = new QuestionClassifier();
-
+    const classifier = new QuestionClassifier(language);
+    this.language = language;
     this.classifications = this.titles.map(
       (title) => classifier.predict(title).key
     );
@@ -18,6 +18,7 @@ export default class CsvExtractor {
     let database = JSON.parse(localStorage.getItem("database"));
 
     database = {
+      language: this.language,
       titles: this.titles,
       rows: this.rows,
       classifications: this.classifications,
@@ -31,6 +32,7 @@ export default class CsvExtractor {
     let database = JSON.parse(localStorage.getItem("database"));
 
     database = {
+      language: this.language,
       titles: obj.titles,
       rows: obj.rows,
       classifications: obj.classifications,

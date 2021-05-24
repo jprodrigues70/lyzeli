@@ -17,13 +17,12 @@ export default class Field extends Component {
             autoCapitalize={this.props.autocapitalize}
             autoComplete={this.props.autocomplete}
             autoCorrect={this.props.autocorrect}
-            value={this.props.modelValue}
+            defaultValue={this.props.modelValue}
             readOnly={this.props.readonly}
             type={this.props.type || "text"}
-            onChange={
-              this.props.onChange &&
-              ((str) => this.props.onChange(str.target.value))
-            }
+            onChange={(str) => {
+              this.props.onChange && this.props.onChange(str.target.value);
+            }}
           />
           {/* onInput="input" */}
         </fieldset>

@@ -18,7 +18,7 @@ const terms = {
       "de acordo com nossos termos",
       "de acordo com os termos",
     ],
-    en: ["I agree", "consent form"],
+    en: ["I agree", "consent form", 'Check the "I agree'],
   },
   answers: {
     classification: {

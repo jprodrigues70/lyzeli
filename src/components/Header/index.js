@@ -1,6 +1,5 @@
-import { Component, createRef } from "react";
+import { Component } from "react";
 import { Context } from "../../store";
-import CsvExtractor from "../../plugins/CsvExtractor";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { ReactComponent as Li } from "../../assets/li.svg";
@@ -19,7 +18,6 @@ class Header extends Component {
   constructor(props) {
     super(props);
     this.state = { database: {}, user: {}, showModal: false };
-    this.form = createRef();
   }
 
   componentDidMount() {
@@ -56,16 +54,11 @@ class Header extends Component {
     return (
       <header className={`c-header ${this.props.className || ""}`}>
         <div className="c-header__left">
-          <Btn
-            className="v--bg-white"
-            outline
-            small
-            onClick={() => this.toggleModal()}
-          >
+          <Btn className="v--bg-white" outline small onClick={this.toggleModal}>
             <Menu />
           </Btn>
           {this.state.showModal ? (
-            <Modal title="Menu" onClose={() => this.toggleModal()} small>
+            <Modal title="Menu" onClose={this.toggleModal} small>
               <VerticalNav />
             </Modal>
           ) : null}
@@ -80,7 +73,7 @@ class Header extends Component {
             className="v--bg-white"
             outline
             two-columns
-            onClick={() => this.logout()}
+            onClick={this.logout}
           >
             <Logout />
             Logout

@@ -1,6 +1,7 @@
 import { Component } from "react";
 import "./style.sass";
 import { ReactComponent as Upload } from "../../assets/upload.svg";
+import { ReactComponent as Loading } from "../../assets/loading.svg";
 
 export default class FileUpload extends Component {
   render() {
@@ -14,7 +15,15 @@ export default class FileUpload extends Component {
           onChange={(event) => this.props.onChange(event)}
         />
         <div className="c-file-upload__false-btn">
-          <Upload></Upload>SELECT FILE
+          {this.props.loading ? (
+            <Loading />
+          ) : (
+            <>
+              <Upload></Upload>
+              <span>SELECT FILE</span>
+            </>
+          )}
+          ;
         </div>
       </div>
     );

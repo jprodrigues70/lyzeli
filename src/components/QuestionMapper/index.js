@@ -86,7 +86,7 @@ export default class QuestionMapper extends Component {
   render() {
     const classifier = new QuestionClassifier();
 
-    return (
+    return this.titles.length ? (
       <div className="c-question-mapper">
         {this.state.phrase.length ? (
           <p className="c-question-mapper__query">
@@ -112,6 +112,10 @@ export default class QuestionMapper extends Component {
           })}
         </div>
       </div>
+    ) : (
+      <>
+        <h1>You don't have a dataset. Please, create one.</h1>
+      </>
     );
   }
 }

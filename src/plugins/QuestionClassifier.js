@@ -2,11 +2,12 @@ import Files from "./Files";
 import Str from "./Str";
 
 export default class QuestionClassifier {
-  constructor() {
+  constructor(language) {
     const raw = require.context(`../questions`, true, /.*\.(js)$/);
     this.options = Files.getComponents(raw).map(
       (component) => component.default
     );
+    this.language = language;
   }
 
   getOption(key) {
@@ -24,7 +25,12 @@ export default class QuestionClassifier {
 
       for (let j = 0; j < positions.length; j++) {
         if (
-          Str.finder(positions[j], question, option[positions[j]]["en"], true)
+          Str.finder(
+            positions[j],
+            question,
+            option[positions[j]][this.language],
+            true
+          )
         ) {
           return option;
         }

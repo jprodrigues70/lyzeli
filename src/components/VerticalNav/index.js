@@ -2,11 +2,8 @@ import { Component } from "react";
 import "./style.sass";
 import { Context } from "../../store";
 
-import FileUpload from "../FileUpload";
-import Modal from "../Modal";
-
 import axios from "axios";
-// import { ReactComponent as Remove } from "../../assets/close.svg";
+
 import { ReactComponent as Logo } from "../../assets/Lyzeli.svg";
 import { ReactComponent as Db } from "../../assets/database.svg";
 import Btn from "../Btn";
@@ -29,6 +26,7 @@ export default class VerticalNav extends Component {
       showModal: false,
       items: [],
       current: localStorage.getItem("current"),
+      showImportModal: false,
     };
   }
 
@@ -37,43 +35,66 @@ export default class VerticalNav extends Component {
     items: [],
   };
 
-  componentDidMount() {
+  loadMenu = () => {
     const repo = localStorage.getItem("repo");
 
     if (repo) {
       axios
-        .get(`https://api.github.com/repos/${repo}/contents/database`, {
-          headers,
-        })
+        .get(
+          `https://api.github.com/repos/${repo}/contents/database?timestamp=${new Date().getTime()}`,
+          {
+            headers,
+          }
+        )
         .then((res) => {
           const hasDatabase = res.data.find(
             (i) => i.path === "database/.lyzeli"
           );
           if (hasDatabase) {
-            this.setState({
-              items: res.data.filter(
-                (i) =>
-                  i.path !== "database/.lyzeli" &&
-                  i.path.startsWith("database/")
-              ),
-            });
-            const current = localStorage.getItem("current");
-            const sha =
-              !current && this.state.items.length
-                ? this.state.items[0].sha
-                : current;
+            this.setState(
+              {
+                items: res.data.filter(
+                  (i) =>
+                    i.path !== "database/.lyzeli" &&
+                    i.path.startsWith("database/")
+                ),
+              },
+              () => {
+                const current = localStorage.getItem("current");
+                const sha =
+                  !current && this.state.items.length
+                    ? this.state.items[0].sha
+                    : current;
 
-            if (sha) {
-              this.getDatabase(sha);
-            }
+                if (sha && this.state.items.length) {
+                  this.getDatabase(sha);
+                } else {
+                  localStorage.setItem("current", "");
+                  this.props.onLoadChange && this.props.onLoadChange(false);
+                }
+              }
+            );
           }
         });
+    }
+  };
+
+  componentDidMount() {
+    this.loadMenu();
+  }
+
+  componentDidUpdate() {
+    const current = localStorage.getItem("current");
+    if (this.state.current !== current) {
+      console.log("yes, yes");
+      this.setState({ current });
+      this.loadMenu();
     }
   }
 
   getDatabase(sha) {
     this.setState({ loading: true });
-    this.props.onLoadChange && this.props.onLoadChange(this.state.loading);
+    this.props.onLoadChange && this.props.onLoadChange(true);
     const repo = localStorage.getItem("repo");
     axios
       .get(`https://api.github.com/repos/${repo}/git/blobs/${sha}`, {
@@ -93,7 +114,7 @@ export default class VerticalNav extends Component {
       })
       .finally(() => {
         this.setState({ loading: false });
-        this.props.onLoadChange && this.props.onLoadChange(this.state.loading);
+        this.props.onLoadChange && this.props.onLoadChange(false);
       });
   }
 
@@ -111,7 +132,19 @@ export default class VerticalNav extends Component {
     this.setState({
       current: item.sha,
     });
-    this.props.onChange(item.sha);
+    this.getDatabase(item.sha);
+  };
+
+  closeImportModal = () => {
+    this.setState({
+      showImportModal: false,
+    });
+  };
+
+  openImportModal = () => {
+    this.setState({
+      showImportModal: true,
+    });
   };
 
   render() {
@@ -121,8 +154,11 @@ export default class VerticalNav extends Component {
           <Logo />
         </div>
         <div className="c-vertical-nav__body">
-          <NewTsv />
-          <Btn block className="v--bg-dark">
+          {(this.state.showImportModal && (
+            <NewTsv onClose={this.closeImportModal} />
+          )) ||
+            null}
+          <Btn block className="v--bg-dark" onClick={this.openImportModal}>
             IMPORT NEW DATASET
           </Btn>
           {this.state.items.length ? (
@@ -138,12 +174,6 @@ export default class VerticalNav extends Component {
                   >
                     <Db />
                     <span>{item.name.replace(".json", "")}</span>
-                    {/* <span
-                      className="c-vertical-nav__list-item__close"
-                      onClick={(event) => this.remove(event, item)}
-                    >
-                      <Remove></Remove>
-                    </span> */}
                   </li>
                 );
               })}
@@ -152,9 +182,7 @@ export default class VerticalNav extends Component {
             "You need to import some file"
           )}
         </div>
-        <div className="c-vertical-nav__footer">
-          {/* <Btn onClick={() => this.toggleModal()}>Salvar no GitHub</Btn> */}
-        </div>
+        <div className="c-vertical-nav__footer"></div>
       </nav>
     );
   }

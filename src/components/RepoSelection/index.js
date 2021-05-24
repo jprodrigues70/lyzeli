@@ -127,7 +127,7 @@ class RepoSelection extends Component {
             className="c-repo-selection__continue"
             color="positive"
             loading={this.state.loading}
-            onClick={() => this.click()}
+            onClick={this.click}
             disabled={this.state.disabled}
           >
             Salvar e continuar
