@@ -86,7 +86,6 @@ export default class VerticalNav extends Component {
   componentDidUpdate() {
     const current = localStorage.getItem("current");
     if (this.state.current !== current) {
-      console.log("yes, yes");
       this.setState({ current });
       this.loadMenu();
     }

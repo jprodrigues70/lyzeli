@@ -6,8 +6,11 @@ import Field from "../Field";
 import Btn from "../Btn";
 import { format } from "date-fns";
 import toast, { Toaster } from "react-hot-toast";
+import Modal from "../Modal";
+import { Context } from "../../store";
 
 class RepoSelection extends Component {
+  static contextType = Context;
   constructor(props) {
     super(props);
     this.state = { repos: [], loading: false, disabled: true };
@@ -84,6 +87,11 @@ class RepoSelection extends Component {
   };
 
   setRepo = (str) => {
+    localStorage.removeItem("current");
+    localStorage.removeItem("repo");
+    localStorage.removeItem("name");
+    localStorage.removeItem("database");
+
     const repo = str
       .replace("https://github.com/", "")
       .replace("https://www.github.com", "")
@@ -100,7 +108,11 @@ class RepoSelection extends Component {
 
   render() {
     return (
-      <div className="c-repo-selection">
+      <Modal
+        indestructible={this.props.indestructible || false}
+        top
+        onClose={this.props.onClose}
+      >
         <div className="c-repo-selection__body">
           <div>
             <h1 className="c-repo-selection__title">
@@ -136,7 +148,7 @@ class RepoSelection extends Component {
             }}
           />
         </div>
-      </div>
+      </Modal>
     );
   }
 }

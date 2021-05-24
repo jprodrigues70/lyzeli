@@ -38,7 +38,7 @@ export default class Painel extends Component {
           <Header className="l-painel__header test" />
           <div className="l-painel__content">
             {!repo ? (
-              <RepoSelection />
+              <RepoSelection indestructible onClose={() => {}} />
             ) : this.state.loading ? (
               <LoadingQuestions />
             ) : (

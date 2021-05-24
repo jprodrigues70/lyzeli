@@ -12,13 +12,19 @@ import Btn from "../Btn";
 import Modal from "../Modal";
 import VerticalNav from "../VerticalNav";
 import { ParallelContext } from "../../parallelStore";
+import RepoSelection from "../RepoSelection";
 
 class Header extends Component {
   static contextType = Context;
 
   constructor(props) {
     super(props);
-    this.state = { database: {}, user: {}, showModal: false };
+    this.state = {
+      database: {},
+      user: {},
+      showNavModal: false,
+      showSettingsModal: false,
+    };
   }
 
   componentDidMount() {
@@ -45,9 +51,16 @@ class Header extends Component {
     this.props.history.push("/");
   };
 
-  toggleModal = () => {
+  toggleNavModal = () => {
     this.setState({
-      showModal: !this.state.showModal,
+      showNavModal: !this.state.showNavModal,
+    });
+  };
+
+  toggleSettingsModal = () => {
+    console.log("EOA");
+    this.setState({
+      showSettingsModal: !this.state.showSettingsModal,
     });
   };
 
@@ -55,15 +68,20 @@ class Header extends Component {
     return (
       <header className={`c-header ${this.props.className || ""}`}>
         <div className="c-header__left">
-          <Btn className="v--bg-white" outline small onClick={this.toggleModal}>
+          <Btn
+            className="v--bg-white"
+            outline
+            small
+            onClick={this.toggleNavModal}
+          >
             <Menu />
           </Btn>
-          {this.state.showModal ? (
-            <Modal title="Menu" onClose={this.toggleModal} small>
+          {this.state.showNavModal ? (
+            <Modal title="Menu" onClose={this.toggleNavModal} small>
               <ParallelContext.Consumer>
                 {(parallel) => (
                   <VerticalNav
-                    onChange={this.toggleModal}
+                    onChange={this.toggleNavModal}
                     parallel={parallel}
                   />
                 )}
@@ -73,10 +91,18 @@ class Header extends Component {
           <Li className="c-header__logo" />
         </div>
         <div className="c-header__right">
-          {/* <Btn className="v--bg-white" outline two-columns>
+          {this.state.showSettingsModal && (
+            <RepoSelection indestructible onClose={this.toggleSettingsModal} />
+          )}
+          <Btn
+            className="v--bg-white"
+            outline
+            two-columns
+            onClick={this.toggleSettingsModal}
+          >
             <Settings />
             Settings
-          </Btn> */}
+          </Btn>
           <Btn
             className="v--bg-white"
             outline
