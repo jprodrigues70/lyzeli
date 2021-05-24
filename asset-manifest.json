@@ -1,26 +1,33 @@
 {
   "files": {
-    "main.css": "/tsv-explorer/static/css/main.1d0ce207.chunk.css",
-    "main.js": "/tsv-explorer/static/js/main.4d38c4f3.chunk.js",
-    "main.js.map": "/tsv-explorer/static/js/main.4d38c4f3.chunk.js.map",
-    "runtime-main.js": "/tsv-explorer/static/js/runtime-main.cea028c9.js",
-    "runtime-main.js.map": "/tsv-explorer/static/js/runtime-main.cea028c9.js.map",
-    "static/js/2.0329be93.chunk.js": "/tsv-explorer/static/js/2.0329be93.chunk.js",
-    "static/js/2.0329be93.chunk.js.map": "/tsv-explorer/static/js/2.0329be93.chunk.js.map",
-    "static/js/3.2709f03d.chunk.js": "/tsv-explorer/static/js/3.2709f03d.chunk.js",
-    "static/js/3.2709f03d.chunk.js.map": "/tsv-explorer/static/js/3.2709f03d.chunk.js.map",
-    "index.html": "/tsv-explorer/index.html",
-    "static/css/main.1d0ce207.chunk.css.map": "/tsv-explorer/static/css/main.1d0ce207.chunk.css.map",
-    "static/js/2.0329be93.chunk.js.LICENSE.txt": "/tsv-explorer/static/js/2.0329be93.chunk.js.LICENSE.txt",
-    "static/media/close.4deb0168.svg": "/tsv-explorer/static/media/close.4deb0168.svg",
-    "static/media/loading.2c1703e7.gif": "/tsv-explorer/static/media/loading.2c1703e7.gif",
-    "static/media/settings.51e8b364.svg": "/tsv-explorer/static/media/settings.51e8b364.svg",
-    "static/media/upload.eabf7003.svg": "/tsv-explorer/static/media/upload.eabf7003.svg"
+    "main.css": "/lyzeli/static/css/main.a3b2d0f6.chunk.css",
+    "main.js": "/lyzeli/static/js/main.dd594e8e.chunk.js",
+    "main.js.map": "/lyzeli/static/js/main.dd594e8e.chunk.js.map",
+    "runtime-main.js": "/lyzeli/static/js/runtime-main.1a3ecfff.js",
+    "runtime-main.js.map": "/lyzeli/static/js/runtime-main.1a3ecfff.js.map",
+    "static/js/2.732daec2.chunk.js": "/lyzeli/static/js/2.732daec2.chunk.js",
+    "static/js/2.732daec2.chunk.js.map": "/lyzeli/static/js/2.732daec2.chunk.js.map",
+    "static/js/3.0a896c0c.chunk.js": "/lyzeli/static/js/3.0a896c0c.chunk.js",
+    "static/js/3.0a896c0c.chunk.js.map": "/lyzeli/static/js/3.0a896c0c.chunk.js.map",
+    "index.html": "/lyzeli/index.html",
+    "static/css/main.a3b2d0f6.chunk.css.map": "/lyzeli/static/css/main.a3b2d0f6.chunk.css.map",
+    "static/js/2.732daec2.chunk.js.LICENSE.txt": "/lyzeli/static/js/2.732daec2.chunk.js.LICENSE.txt",
+    "static/media/Lyzeli.svg": "/lyzeli/static/media/Lyzeli.4543b848.svg",
+    "static/media/close.4deb0168.svg": "/lyzeli/static/media/close.4deb0168.svg",
+    "static/media/database.svg": "/lyzeli/static/media/database.42247b29.svg",
+    "static/media/g10072.32fc3b6e.png": "/lyzeli/static/media/g10072.32fc3b6e.png",
+    "static/media/li.34b062e9.svg": "/lyzeli/static/media/li.34b062e9.svg",
+    "static/media/loading.2c1703e7.gif": "/lyzeli/static/media/loading.2c1703e7.gif",
+    "static/media/loading.svg": "/lyzeli/static/media/loading.7152f255.svg",
+    "static/media/log-out.bf60e720.svg": "/lyzeli/static/media/log-out.bf60e720.svg",
+    "static/media/menu.644fa295.svg": "/lyzeli/static/media/menu.644fa295.svg",
+    "static/media/settings.svg": "/lyzeli/static/media/settings.51e8b364.svg",
+    "static/media/upload.eabf7003.svg": "/lyzeli/static/media/upload.eabf7003.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.cea028c9.js",
-    "static/js/2.0329be93.chunk.js",
-    "static/css/main.1d0ce207.chunk.css",
-    "static/js/main.4d38c4f3.chunk.js"
+    "static/js/runtime-main.1a3ecfff.js",
+    "static/js/2.732daec2.chunk.js",
+    "static/css/main.a3b2d0f6.chunk.css",
+    "static/js/main.dd594e8e.chunk.js"
   ]
 }
