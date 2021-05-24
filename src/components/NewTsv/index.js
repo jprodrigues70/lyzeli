@@ -154,7 +154,6 @@ class NewTsv extends Component {
               },
             }}
           />
-          ;
         </div>
       </Modal>
     );

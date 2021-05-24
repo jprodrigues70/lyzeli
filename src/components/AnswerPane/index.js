@@ -27,7 +27,10 @@ export default class AnswerPane extends AnswerPrinter {
   };
 
   summarizeCityState = (type, onClick) => {
-    const answers = AnswerClassifier.groupCityAnswers(this.valids);
+    const answers = AnswerClassifier.groupCityAnswers(
+      this.valids,
+      this.props.language
+    );
     return this.summaryAnswer(
       answers,
       <span>

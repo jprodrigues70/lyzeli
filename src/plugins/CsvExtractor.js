@@ -32,7 +32,7 @@ export default class CsvExtractor {
     let database = JSON.parse(localStorage.getItem("database"));
 
     database = {
-      language: this.language,
+      language: obj.language,
       titles: obj.titles,
       rows: obj.rows,
       classifications: obj.classifications,

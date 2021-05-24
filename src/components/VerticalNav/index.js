@@ -125,13 +125,24 @@ export default class VerticalNav extends Component {
   };
 
   isActive = (item) => {
-    return item.sha === this.state.current;
+    if (item.sha === this.state.current) {
+      localStorage.setItem("name", item.name.replace(".json", ""));
+      return true;
+    }
+    return false;
   };
 
   change = (item) => {
     this.setState({
       current: item.sha,
     });
+    localStorage.setItem("current", item.sha);
+
+    this.props.parallel.dispatch({
+      action: "change.setTo",
+      payload: 0,
+    });
+
     this.getDatabase(item.sha);
   };
 

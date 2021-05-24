@@ -9,8 +9,9 @@ export default class Question extends Component {
 
   constructor(props, context) {
     super(props, context);
-    const { rows, classifications, manualSettings } =
+    const { language, rows, classifications, manualSettings } =
       this.context.state["database.table"];
+    this.language = language;
     this.rows = rows || [];
     this.classifications = classifications || [];
     this.manualSettings = manualSettings || [];
@@ -31,13 +32,10 @@ export default class Question extends Component {
 
     this.classifications[this.props.position] = classification.key;
 
-    this.context.dispatch({
-      action: "database.setChanges",
-      payload: this.context.state["database.changes"]
-        ? this.context.state["database.changes"] + 1
-        : 1,
+    this.props.parallel.dispatch({
+      action: "change.setTo",
+      payload: parseInt(this.props.parallel.state["change.count"]) + 1,
     });
-
     CsvExtractor.update({
       ...table,
       classifications: this.classifications,
@@ -82,6 +80,8 @@ export default class Question extends Component {
         </div>
         <div className="c-question__body">
           <AnswerPane
+            parallel={this.props.parallel}
+            language={this.language}
             question-classification={this.state.classification}
             answers={answers}
             question={this.props.position}

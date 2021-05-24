@@ -5,6 +5,7 @@ import { Context } from "../../store";
 import key from "../../plugins/key";
 import QuestionClassifier from "../../plugins/QuestionClassifier";
 import AnswerTreatment from "../../plugins/AnswerTreatment";
+import { ParallelContext } from "../../parallelStore";
 
 export default class QuestionMapper extends Component {
   static contextType = Context;
@@ -98,16 +99,20 @@ export default class QuestionMapper extends Component {
         <div className="c-question-mapper__questions">
           {this.titles.map((item, index) => {
             return (
-              <Question
-                title={item}
-                position={index}
-                key={key(`question-${index}`)}
-                classifier={classifier}
-                onAnswerClick={(i, classification) =>
-                  this.onAnswerClick(index, i, classification)
-                }
-                filters={this.state.filters}
-              ></Question>
+              <ParallelContext.Consumer key={key(`question-${index}`)}>
+                {(parallel) => (
+                  <Question
+                    parallel={parallel}
+                    title={item}
+                    position={index}
+                    classifier={classifier}
+                    onAnswerClick={(i, classification) =>
+                      this.onAnswerClick(index, i, classification)
+                    }
+                    filters={this.state.filters}
+                  ></Question>
+                )}
+              </ParallelContext.Consumer>
             );
           })}
         </div>

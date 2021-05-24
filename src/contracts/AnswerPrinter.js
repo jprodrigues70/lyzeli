@@ -5,6 +5,8 @@ import Sentiment from "sentiment";
 import key from "../plugins/key";
 import { Context } from "../store";
 
+import analyser from "sentiment-ptbr";
+
 import color from "../plugins/color";
 import Chart from "../components/Chart";
 import WordCloud from "../components/WordCloud";
@@ -49,7 +51,10 @@ export default class AnswerPrinter extends Component {
         ...item,
         answer: item.answer.trim(),
         question: this.props.question,
-        sentiment: an.analyze(item.answer),
+        sentiment:
+          this.props.language === "en"
+            ? an.analyze(item.answer)
+            : analyser(item.answer),
         manualSetting:
           this.table?.manualSettings?.[this.props.question]?.[item.line],
       };
@@ -75,7 +80,11 @@ export default class AnswerPrinter extends Component {
       {
         sets: {
           ...(items === null
-            ? this.classifier.groupByCategories(type.key, this.valids)
+            ? this.classifier.groupByCategories(
+                type.key,
+                this.valids,
+                this.props.language
+              )
             : items),
         },
       },
@@ -111,6 +120,11 @@ export default class AnswerPrinter extends Component {
                 },
               };
 
+              this.props.parallel.dispatch({
+                action: "change.setTo",
+                payload:
+                  parseInt(this.props.parallel.state["change.count"]) + 1,
+              });
               CsvExtractor.update(database);
               this.categoryAnswerChange(type, item, items, change, o);
             }
@@ -174,6 +188,7 @@ export default class AnswerPrinter extends Component {
   };
 
   countWords = (labels) => {
+    console.log(this.props.language);
     return labels
       .flatMap((i) =>
         this.state.sets[i].flatMap((j) => {
@@ -184,8 +199,9 @@ export default class AnswerPrinter extends Component {
             .split(" ")
             .filter(
               (k) =>
-                !stopwords["en"].map((s) => Str.normalize(s)).includes(k) &&
-                k.length > 1
+                !stopwords[this.props.language]
+                  .map((s) => Str.normalize(s))
+                  .includes(k) && k.length > 1
             );
           return [...new Set(raw)];
         })

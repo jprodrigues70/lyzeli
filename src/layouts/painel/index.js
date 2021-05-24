@@ -7,6 +7,7 @@ import { Context } from "../../store";
 
 import LoadingQuestions from "../../components/LoadingQuestions";
 import RepoSelection from "../../components/RepoSelection";
+import { ParallelContext } from "../../parallelStore";
 
 export default class Painel extends Component {
   static contextType = Context;
@@ -24,7 +25,14 @@ export default class Painel extends Component {
     return (
       <div className="l-painel">
         <div className="l-painel__leftnav">
-          <VerticalNav onLoadChange={(status) => this.loading(status)} />
+          <ParallelContext.Consumer>
+            {(parallel) => (
+              <VerticalNav
+                onLoadChange={(status) => this.loading(status)}
+                parallel={parallel}
+              />
+            )}
+          </ParallelContext.Consumer>
         </div>
         <div className="l-painel__right">
           <Header className="l-painel__header test" />

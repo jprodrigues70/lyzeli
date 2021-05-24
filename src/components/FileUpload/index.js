@@ -23,7 +23,6 @@ export default class FileUpload extends Component {
               <span>SELECT FILE</span>
             </>
           )}
-          ;
         </div>
       </div>
     );

@@ -10,7 +10,7 @@ export default class AnswerClassifier {
     );
   }
 
-  groupByCategories(key, responses) {
+  groupByCategories(key, responses, language) {
     const option = this.options.find((option) => option.key === key);
     const avaiableClassifications = [];
     const { classification: config, alias } = option.answers;
@@ -45,7 +45,7 @@ export default class AnswerClassifier {
                 Str.finder(
                   types[j],
                   response.answer,
-                  classification[types[j]]["en"],
+                  classification[types[j]][language],
                   false
                 )
               ) {
@@ -100,7 +100,7 @@ export default class AnswerClassifier {
     );
   }
 
-  static groupCityAnswers(answers) {
+  static groupCityAnswers(answers, language) {
     return answers
       .sort((a, b) => a.answer.localeCompare(b.answer))
       .reduce((acc, item) => {
