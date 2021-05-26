@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/lyzeli/static/css/main.f11e8fbc.chunk.css",
-    "main.js": "/lyzeli/static/js/main.2676a1d1.chunk.js",
-    "main.js.map": "/lyzeli/static/js/main.2676a1d1.chunk.js.map",
-    "runtime-main.js": "/lyzeli/static/js/runtime-main.1a3ecfff.js",
-    "runtime-main.js.map": "/lyzeli/static/js/runtime-main.1a3ecfff.js.map",
-    "static/js/2.39dc232b.chunk.js": "/lyzeli/static/js/2.39dc232b.chunk.js",
-    "static/js/2.39dc232b.chunk.js.map": "/lyzeli/static/js/2.39dc232b.chunk.js.map",
-    "static/js/3.0a896c0c.chunk.js": "/lyzeli/static/js/3.0a896c0c.chunk.js",
-    "static/js/3.0a896c0c.chunk.js.map": "/lyzeli/static/js/3.0a896c0c.chunk.js.map",
+    "main.css": "/lyzeli/static/css/main.da64ed19.chunk.css",
+    "main.js": "/lyzeli/static/js/main.016d48d8.chunk.js",
+    "main.js.map": "/lyzeli/static/js/main.016d48d8.chunk.js.map",
+    "runtime-main.js": "/lyzeli/static/js/runtime-main.fd54842d.js",
+    "runtime-main.js.map": "/lyzeli/static/js/runtime-main.fd54842d.js.map",
+    "static/js/2.0602d6ea.chunk.js": "/lyzeli/static/js/2.0602d6ea.chunk.js",
+    "static/js/2.0602d6ea.chunk.js.map": "/lyzeli/static/js/2.0602d6ea.chunk.js.map",
+    "static/js/3.752c0521.chunk.js": "/lyzeli/static/js/3.752c0521.chunk.js",
+    "static/js/3.752c0521.chunk.js.map": "/lyzeli/static/js/3.752c0521.chunk.js.map",
     "index.html": "/lyzeli/index.html",
-    "static/css/main.f11e8fbc.chunk.css.map": "/lyzeli/static/css/main.f11e8fbc.chunk.css.map",
-    "static/js/2.39dc232b.chunk.js.LICENSE.txt": "/lyzeli/static/js/2.39dc232b.chunk.js.LICENSE.txt",
+    "static/css/main.da64ed19.chunk.css.map": "/lyzeli/static/css/main.da64ed19.chunk.css.map",
+    "static/js/2.0602d6ea.chunk.js.LICENSE.txt": "/lyzeli/static/js/2.0602d6ea.chunk.js.LICENSE.txt",
     "static/media/Lyzeli.svg": "/lyzeli/static/media/Lyzeli.4543b848.svg",
     "static/media/close.4deb0168.svg": "/lyzeli/static/media/close.4deb0168.svg",
     "static/media/database.svg": "/lyzeli/static/media/database.42247b29.svg",
@@ -22,12 +22,13 @@
     "static/media/log-out.bf60e720.svg": "/lyzeli/static/media/log-out.bf60e720.svg",
     "static/media/menu.644fa295.svg": "/lyzeli/static/media/menu.644fa295.svg",
     "static/media/settings.svg": "/lyzeli/static/media/settings.51e8b364.svg",
+    "static/media/trash.a3c68648.svg": "/lyzeli/static/media/trash.a3c68648.svg",
     "static/media/upload.eabf7003.svg": "/lyzeli/static/media/upload.eabf7003.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.1a3ecfff.js",
-    "static/js/2.39dc232b.chunk.js",
-    "static/css/main.f11e8fbc.chunk.css",
-    "static/js/main.2676a1d1.chunk.js"
+    "static/js/runtime-main.fd54842d.js",
+    "static/js/2.0602d6ea.chunk.js",
+    "static/css/main.da64ed19.chunk.css",
+    "static/js/main.016d48d8.chunk.js"
   ]
 }
