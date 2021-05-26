@@ -22,19 +22,24 @@ export default class Suitable extends Component {
     return (
       <div className={`c-suitable ${this.props.className}`}>
         <div className="c-suitable__header">
-          {this.props.areas.map((item) => {
-            const key = item.key.split(":")[0].trim();
-            return (
-              <Btn
-                color={item.color}
-                onClick={() => this.showTab(key)}
-                key={key}
-                active={key === this.state.visible}
-              >
-                {item.key}
-              </Btn>
-            );
-          })}
+          <div className="c-suitable__header-controls">
+            {this.props.areas.map((item) => {
+              const key = item.key.split(":")[0].trim();
+              return (
+                <Btn
+                  color={item.color}
+                  onClick={() => this.showTab(key)}
+                  key={key}
+                  active={key === this.state.visible}
+                >
+                  {item.key}
+                </Btn>
+              );
+            })}
+          </div>
+          <div className="c-suitable__header-right-side">
+            {this.props["right-side-of-header"]}
+          </div>
         </div>
         <div className="c-suitable__body">
           <SuitableContent

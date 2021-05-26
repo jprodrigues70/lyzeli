@@ -58,7 +58,6 @@ class Header extends Component {
   };
 
   toggleSettingsModal = () => {
-    console.log("EOA");
     this.setState({
       showSettingsModal: !this.state.showSettingsModal,
     });
@@ -92,7 +91,7 @@ class Header extends Component {
         </div>
         <div className="c-header__right">
           {this.state.showSettingsModal && (
-            <RepoSelection indestructible onClose={this.toggleSettingsModal} />
+            <RepoSelection onClose={this.toggleSettingsModal} />
           )}
           <Btn
             className="v--bg-white"
