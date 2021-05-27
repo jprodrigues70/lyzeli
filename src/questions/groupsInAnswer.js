@@ -21,6 +21,8 @@ const groupsInAnswer = {
       "o quanto ",
       "quanto ao",
       "quanto à",
+      "a seguir",
+      "que seguem",
     ],
     en: ["how long", "what is", "what title"],
   },

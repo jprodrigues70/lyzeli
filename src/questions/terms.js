@@ -17,6 +17,7 @@ const terms = {
       "termos e condições",
       "de acordo com nossos termos",
       "de acordo com os termos",
+      "declaro que",
     ],
     en: ["I agree", "consent form", 'Check the "I agree'],
   },

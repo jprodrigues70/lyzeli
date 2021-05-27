@@ -14,6 +14,7 @@ const yesOrNot = {
       "você utiliza",
       "você aprendeu",
       "você lembra",
+      "gostaria de",
       "Se sim",
       "Se não",
       "Se positivo",
