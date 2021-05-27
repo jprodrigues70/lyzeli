@@ -16,6 +16,7 @@ import "./style.sass";
 import CsvExtractor from "../plugins/CsvExtractor";
 import pattern from "patternomaly";
 import CountWords from "../components/CountWords";
+import AnswerTreatment from "../plugins/AnswerTreatment";
 export default class AnswerPrinter extends Component {
   static contextType = Context;
   valids = [];
@@ -188,7 +189,6 @@ export default class AnswerPrinter extends Component {
   };
 
   countWords = (labels) => {
-    console.log(this.props.language);
     return labels
       .flatMap((i) =>
         this.state.sets[i].flatMap((j) => {
@@ -268,7 +268,7 @@ export default class AnswerPrinter extends Component {
   };
 
   summaryAnswer(answers, maxText, minText, type, onClick) {
-    const answersKeys = Object.keys(answers);
+    let answersKeys = Object.keys(answers);
     const max = answersKeys.reduce(
       (acc, key) => {
         return answers[key] > acc.total ? { key, total: answers[key] } : acc;
@@ -300,9 +300,32 @@ export default class AnswerPrinter extends Component {
         was the option that you received the <b>fewest responses</b>
       </span>
     );
+
+    const check = (a) => {
+      return this.valids.find(
+        (k) =>
+          ((AnswerTreatment[type.key] &&
+            AnswerTreatment[type.key](k.answer) === a) ||
+            (!AnswerTreatment[type.key] && k.answer === a)) &&
+          k.isFiltered
+      );
+    };
+
+    const maxClasses = ["c-answer"];
+
+    if (check(max.key)) {
+      maxClasses.push("c-answer__ghost");
+    }
+
+    const minClasses = ["c-answer"];
+
+    if (check(min.key)) {
+      minClasses.push("c-answer__ghost");
+    }
+
     let content = (
       <ul>
-        <li>
+        <li className={maxClasses.join(" ")}>
           "
           {onClick ? (
             <button className="v--link" onClick={() => onClick(max.key)}>
@@ -313,7 +336,7 @@ export default class AnswerPrinter extends Component {
           )}
           " {maxText} . {max.total} in total
         </li>
-        <li>
+        <li className={minClasses.join(" ")}>
           "
           {onClick ? (
             <button className="v--link" onClick={() => onClick(min.key)}>
@@ -329,7 +352,7 @@ export default class AnswerPrinter extends Component {
     if (max.key === min.key) {
       content = (
         <ul>
-          <li>
+          <li className={maxClasses.join(" ")}>
             "
             {onClick ? (
               <button className="v--link" onClick={() => onClick(max.key)}>
@@ -352,30 +375,39 @@ export default class AnswerPrinter extends Component {
         key: "Compiled data",
         content: () => (
           <ul>
-            {answersKeys.map((i) => (
-              <li key={key(`ctst-${i}`)}>
-                {onClick ? (
-                  <button className="v--link" onClick={() => onClick(i)}>
-                    <b>{i}</b>
-                  </button>
-                ) : (
-                  i
-                )}
-                : {answers[i]}
-              </li>
-            ))}
+            {answersKeys.map((i) => {
+              const classes = ["c-answer"];
+
+              if (check(i)) {
+                classes.push("c-answer__ghost");
+              }
+              return (
+                <li key={key(`ctst-${i}`)} className={classes.join(" ")}>
+                  {onClick ? (
+                    <button className="v--link" onClick={() => onClick(i)}>
+                      <b>{i}</b>
+                    </button>
+                  ) : (
+                    i
+                  )}
+                  : {answers[i]}
+                </li>
+              );
+            })}
           </ul>
         ),
       },
     ];
 
+    const fAnswersKeys = answersKeys.filter((i) => !check(i));
+    // this.valids = this.valids.filter((i) => !i.isFiltered);
     const data = {
-      labels: answersKeys,
+      labels: fAnswersKeys,
       datasets: [
         {
           label: "# Of respondents",
-          data: answersKeys.map((i) => answers[i]),
-          backgroundColor: answersKeys.map((i, index) => {
+          data: fAnswersKeys.map((i) => answers[i]),
+          backgroundColor: fAnswersKeys.map((i, index) => {
             const j = answersKeys.length - index;
 
             const p = this.patterns[index]

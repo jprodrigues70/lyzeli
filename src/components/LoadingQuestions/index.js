@@ -8,8 +8,10 @@ export default class LoadingQuestions extends Component {
     return (
       <div className="c-loading-questions c-suitable">
         <div className="c-suitable__header">
-          <div className="c-loading-questions__button"></div>
-          <div className="c-loading-questions__button"></div>
+          <div className="c-suitable__header-controls">
+            <div className="c-loading-questions__button"></div>
+            <div className="c-loading-questions__button"></div>
+          </div>
         </div>
         <div className="c-question-mapper__questions">
           {items.map((i) => (

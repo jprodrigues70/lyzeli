@@ -37,6 +37,7 @@ const positives = {
     "sim",
     "sim",
     "pois não",
+    "existe",
   ],
   en: ["yes", "shure", "I am", "cool", "best of luck", "I agree"],
 };

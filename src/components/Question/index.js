@@ -4,6 +4,7 @@ import AnswerPane from "../AnswerPane";
 import CsvExtractor from "../../plugins/CsvExtractor";
 import { Context } from "../../store";
 import "./style.sass";
+import AnswerTreatment from "../../plugins/AnswerTreatment";
 export default class Question extends Component {
   static contextType = Context;
 
@@ -48,20 +49,47 @@ export default class Question extends Component {
 
   render() {
     let answers = this.rows;
+    let isInFilter = false;
 
     this.props.filters.forEach((f) => {
-      answers = answers.filter((i) =>
-        f.filter(i, f.params.question, f.params.answer)
-      );
+      if (f.params.question !== this.props.position) {
+        answers = answers.filter((i) =>
+          f.filter(i, f.params.question, f.params.answers)
+        );
+      }
     });
+
+    let answers_valids = [];
+    const filter_of_question = this.props.filters.find(
+      (i) => i.params.question === this.props.position
+    );
+
+    if (filter_of_question) {
+      answers_valids = filter_of_question.params.answers;
+    }
+
+    const value = (item) => {
+      if (AnswerTreatment[this.state.classification.key]) {
+        return AnswerTreatment[this.state.classification.key](item);
+      }
+      return item;
+    };
 
     answers = answers.map((row, line) => ({
       line,
       answer: row[this.props.position],
+      isFiltered:
+        answers_valids.length &&
+        !answers_valids.includes(value(row[this.props.position])),
     }));
 
+    let classes = ["c-question"];
+    if (isInFilter) {
+      classes.push("c-question--in-filter");
+    }
+
     return (
-      <div className="c-question">
+      <div className={classes.join(" ")}>
         <div className="c-question__header">
           <div>
             <h2 className="c-question__title">

@@ -55,18 +55,27 @@ export default class AnswerPane extends AnswerPrinter {
 
       return () => (
         <ul>
-          {Object.keys(grouped).map((i) => (
-            <li key={key(`categorie-${i}`)}>
-              {onClick ? (
-                <button className="v--link" onClick={() => onClick(i)}>
+          {Object.keys(grouped).map((i) => {
+            const classes = ["c-answer"];
+            const isFilterd = set.find((k) => k.answer === i && k.isFiltered);
+
+            if (isFilterd) {
+              classes.push("c-answer__ghost");
+            }
+
+            return (
+              <li className={classes.join(" ")} key={key(`categorie-${i}`)}>
+                {onClick ? (
+                  <button className="v--link" onClick={() => onClick(i)}>
+                    <b>{i}</b>
+                  </button>
+                ) : (
                   <b>{i}</b>
-                </button>
-              ) : (
-                <b>{i}</b>
-              )}
-              : {grouped[i]} respondents
-            </li>
-          ))}
+                )}
+                : {grouped[i]} respondents
+              </li>
+            );
+          })}
         </ul>
       );
     });
@@ -131,10 +140,10 @@ export default class AnswerPane extends AnswerPrinter {
       <div className="c-answer-pane">
         <div className="c-answer-pane__counters">
           <div className="c-answer-pane__counters-item">
-            Valids: {this.valids.length}
+            Valids: {this.valids.filter((i) => !i.isFiltered).length}
           </div>
           <div className="c-answer-pane__counters-item">
-            Invalids: {this.invalids.length}
+            Invalids: {this.invalids.filter((i) => !i.isFiltered).length}
           </div>
         </div>
         <div className="c-answer-pane__body">{this.state.component}</div>

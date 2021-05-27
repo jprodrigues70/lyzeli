@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Btn from "../Btn";
+// import Field from "../Field";
 import "./style.sass";
 
 export default class SentimentItem extends Component {
@@ -38,6 +39,10 @@ export default class SentimentItem extends Component {
               </ul>
             )}
             <div className="c-sentiment-item__control">
+              {/* <form>
+                <Field placeholder="Add a tag" />
+                <Btn>Ok</Btn>
+              </form> */}
               {this.props.categories.map((k) => (
                 <Btn small color={k} key={k} onClick={() => this.change(k)}>
                   Change to {k}

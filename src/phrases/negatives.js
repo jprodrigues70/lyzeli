@@ -31,6 +31,7 @@ const negatives = {
     "nego",
     "nem pensar",
     "nenhuma",
+    "nenhum",
     "nunca",
     "não aceito",
     "não aprovo",
@@ -43,6 +44,7 @@ const negatives = {
     "não quero",
     "não vale a pena",
     "não",
+    "não existe",
     "odeio",
     "pouco provável",
     "pouco relevante",
@@ -50,6 +52,7 @@ const negatives = {
     "rejeito",
     "repulgnante",
     "terrível",
+    "baixo",
   ],
   en: [
     "I never",
