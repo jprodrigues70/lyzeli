@@ -56,14 +56,26 @@ export default class Save extends Component {
           message: "Update " + name,
           content: Buffer.from(database).toString("base64"),
           sha: current,
-          committer: {
-            name: user.name,
-            email: user.email,
-          },
-          author: {
-            name: user.name,
-            email: user.email,
-          },
+          committer:
+            user.name && user.email
+              ? {
+                  name: user.name,
+                  email: user.email,
+                }
+              : {
+                  name: "Lyzeli",
+                  email: "example@email.com",
+                },
+          author:
+            user.name && user.email
+              ? {
+                  name: user.name,
+                  email: user.email,
+                }
+              : {
+                  name: "Lyzeli",
+                  email: "example@email.com",
+                },
         },
         {
           headers: this.getHeaders(),

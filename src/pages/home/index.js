@@ -53,10 +53,16 @@ export default class Home extends Component {
           data: {
             message: `Delete ${name}`,
             sha: current,
-            committer: {
-              name: user.name,
-              email: user.email,
-            },
+            committer:
+              user.name && user.email
+                ? {
+                    name: user.name,
+                    email: user.email,
+                  }
+                : {
+                    name: "Lyzeli",
+                    email: "example@email.com",
+                  },
           },
         }
       )

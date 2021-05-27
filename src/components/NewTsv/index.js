@@ -64,14 +64,26 @@ class NewTsv extends Component {
         {
           message: "Create " + this.state.name,
           content: Buffer.from(JSON.stringify(database)).toString("base64"),
-          committer: {
-            name: user.name,
-            email: user.email,
-          },
-          author: {
-            name: user.name,
-            email: user.email,
-          },
+          committer:
+            user.name && user.email
+              ? {
+                  name: user.name,
+                  email: user.email,
+                }
+              : {
+                  name: "Lyzeli",
+                  email: "example@email.com",
+                },
+          author:
+            user.name && user.email
+              ? {
+                  name: user.name,
+                  email: user.email,
+                }
+              : {
+                  name: "Lyzeli",
+                  email: "example@email.com",
+                },
         },
         {
           headers: this.getHeaders(),

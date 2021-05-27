@@ -114,7 +114,7 @@ class Header extends Component {
           <img
             className="c-header__avatar"
             src={this.state.user.avatar_url}
-            alt={this.state.user.name}
+            alt={this.state.user.name || "avatar"}
           />
         </div>
       </header>

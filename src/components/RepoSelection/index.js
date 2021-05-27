@@ -64,14 +64,26 @@ class RepoSelection extends Component {
           content: Buffer.from(format(new Date(), "d-MM-Y HH:mm:ss")).toString(
             "base64"
           ),
-          committer: {
-            name: user.name,
-            email: user.email,
-          },
-          author: {
-            name: user.name,
-            email: user.email,
-          },
+          committer:
+            user.name && user.email
+              ? {
+                  name: user.name,
+                  email: user.email,
+                }
+              : {
+                  name: "Lyzeli",
+                  email: "example@email.com",
+                },
+          author:
+            user.name && user.email
+              ? {
+                  name: user.name,
+                  email: user.email,
+                }
+              : {
+                  name: "Lyzeli",
+                  email: "example@email.com",
+                },
         },
         {
           headers: this.getHeaders(),
