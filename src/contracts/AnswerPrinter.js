@@ -11,6 +11,7 @@ import color from "../plugins/color";
 import Chart from "../components/Chart";
 import WordCloud from "../components/WordCloud";
 import stopwords from "../phrases/stopwords";
+import Arr from "../plugins/Arr";
 import Str from "../plugins/Str";
 import "./style.sass";
 import CsvExtractor from "../plugins/CsvExtractor";
@@ -58,6 +59,7 @@ export default class AnswerPrinter extends Component {
             : analyser(item.answer),
         manualSetting:
           this.table?.manualSettings?.[this.props.question]?.[item.line],
+        comments: this.table?.comments?.[this.props.question]?.[item.line],
       };
       const { answer } = response;
       if (
@@ -90,25 +92,128 @@ export default class AnswerPrinter extends Component {
         },
       },
       () => {
-        const change = (i, k, o) => {
-          o = Str.ucfirst(o);
-          k = Str.ucfirst(k);
+        const onComment = (answer, comment, category, remove = false) => {
+          let sets = this.state.sets;
+          const user = JSON.parse(localStorage.getItem("user"));
+          category = Str.ucfirst(category);
+
+          sets[category] = sets[category].filter(
+            (a) => a.line !== answer.line && a.question === answer.question
+          );
+
+          if (
+            answer?.comments?.[type.key]?.[`${user.login}@${user.id}`]?.find(
+              (f) => f.id === comment.id
+            ) &&
+            !remove
+          ) {
+            return;
+          }
+
+          const operation = {
+            [type.key]: {
+              ...answer?.comments?.[type.key],
+              [`${user.login}@${user.id}`]: remove
+                ? (
+                    answer?.comments?.[type.key]?.[
+                      `${user.login}@${user.id}`
+                    ] || []
+                  ).filter((i) => i.id !== comment.id)
+                : Arr.unique(
+                    [
+                      ...(answer?.comments?.[type.key]?.[
+                        `${user.login}@${user.id}`
+                      ] || []),
+                      comment,
+                    ],
+                    "id"
+                  ),
+            },
+          };
+
+          sets[category] = [
+            ...sets[category],
+            {
+              ...answer,
+              comments: {
+                ...(answer.comments || {}),
+                ...operation,
+              },
+            },
+          ];
+
+          sets[category].sort((a, b) => a.line - b.line);
+
+          this.setState(
+            {
+              sets: sets,
+            },
+            () => {
+              const table = JSON.parse(localStorage.getItem("database"));
+
+              const comments = {
+                [answer.question]: {
+                  ...(table?.comments?.[answer.question] || {}),
+                  [answer.line]: {
+                    ...(table?.comments?.[answer.question]?.[answer.line] ||
+                      {}),
+                    ...operation,
+                  },
+                },
+              };
+
+              const database = {
+                ...table,
+                comments: {
+                  ...(table?.comments || {}),
+                  ...comments,
+                },
+              };
+
+              this.props.parallel.dispatch({
+                action: "change.setTo",
+                payload:
+                  parseInt(this.props.parallel.state["change.count"]) + 1,
+              });
+
+              CsvExtractor.update(database);
+              this.categoryAnswerChange(
+                type,
+                item,
+                onComment,
+                change,
+                category
+              );
+            }
+          );
+        };
+
+        const change = (answer, from, to) => {
+          to = Str.ucfirst(to);
+          from = Str.ucfirst(from);
+
           this.setState(
             {
               sets: {
                 ...this.state.sets,
-                [o]: this.state.sets[o].filter((j) => j.line !== i.line),
-                [k]: [{ ...i, sentimentManual: k }, ...this.state.sets[k]],
+                [to]: this.state.sets[to].filter((j) => j.line !== answer.line),
+                [from]: [
+                  { ...answer, sentimentManual: from },
+                  ...this.state.sets[from],
+                ],
               },
             },
             () => {
               const table = JSON.parse(localStorage.getItem("database"));
+
               const manualSettings = {
-                [i.question]: {
-                  ...(table?.manualSettings?.[i.question] || {}),
-                  [i.line]: {
-                    ...(table?.manualSettings?.[i.question]?.[i.line] || {}),
-                    [type.key]: k,
+                [answer.question]: {
+                  ...(table?.manualSettings?.[answer.question] || {}),
+                  [answer.line]: {
+                    ...(table?.manualSettings?.[answer.question]?.[
+                      answer.line
+                    ] || {}),
+                    [type.key]: from,
                   },
                 },
               };
@@ -126,12 +231,13 @@ export default class AnswerPrinter extends Component {
                 payload:
                   parseInt(this.props.parallel.state["change.count"]) + 1,
               });
+
               CsvExtractor.update(database);
-              this.categoryAnswerChange(type, item, items, change, o);
+              this.categoryAnswerChange(type, item, onComment, change, to);
             }
           );
         };
-        this.categoryAnswerChange(type, item, items, change);
+        this.categoryAnswerChange(type, item, onComment, change);
       }
     );
   };
@@ -220,7 +326,7 @@ export default class AnswerPrinter extends Component {
       .map((i) => [i, countWords[i]]);
   };
 
-  categoryAnswerChange = (type, item, items = null, change, startsAt) => {
+  categoryAnswerChange = (type, item, onComment = null, change, startsAt) => {
     const areas = [];
     const answersKeys = Object.keys(this.state.sets);
 
@@ -229,7 +335,8 @@ export default class AnswerPrinter extends Component {
         this.state.sets[set],
         set.toLowerCase(),
         change,
-        answersKeys.map((i) => i.toLowerCase())
+        answersKeys.map((i) => i.toLowerCase()),
+        onComment
       );
       areas.push({
         key: `${set}: ${this.state.sets[set].length}`,

@@ -82,26 +82,31 @@ export default class AnswerPane extends AnswerPrinter {
   };
 
   categorize = (type) => {
-    return this.categoryAnswer(type, (set, category, change, categories) => {
-      if (categories.length > 1) {
+    return this.categoryAnswer(
+      type,
+      (set, category, change, categories, onComment) => {
+        if (categories.length > 1) {
+          return () => (
+            <SentimentList
+              list={set}
+              type={type}
+              category={category}
+              categories={categories}
+              change={change}
+              onComment={onComment}
+              hide-sentiment={true}
+            />
+          );
+        }
         return () => (
-          <SentimentList
-            list={set}
-            category={category}
-            categories={categories}
-            change={change}
-            hide-sentiment={true}
-          />
+          <ul>
+            {set.map((i) => (
+              <li key={key(`nol-${i.line}`)}>{i.answer}</li>
+            ))}
+          </ul>
         );
       }
-      return () => (
-        <ul>
-          {set.map((i) => (
-            <li key={key(`nol-${i.line}`)}>{i.answer}</li>
-          ))}
-        </ul>
-      );
-    });
+    );
   };
 
   scoreSentimentsAndCategorize = (type) => {
@@ -109,13 +114,15 @@ export default class AnswerPane extends AnswerPrinter {
 
     return this.categoryAnswer(
       type,
-      (set, category, change) => {
+      (set, category, change, items, onComment) => {
         return () => (
           <SentimentList
             list={set}
             category={category}
+            type={type}
             categories={["negative", "neutral", "positive"]}
             change={change}
+            onComment={onComment}
           />
         );
       },

@@ -23,6 +23,7 @@ export default class CsvExtractor {
       rows: this.rows,
       classifications: this.classifications,
       manualSettings: {},
+      comments: {},
     };
 
     localStorage.setItem("database", JSON.stringify(database));
@@ -37,6 +38,7 @@ export default class CsvExtractor {
       rows: obj.rows,
       classifications: obj.classifications,
       manualSettings: obj.manualSettings,
+      comments: obj.comments,
     };
 
     localStorage.setItem("database", JSON.stringify(database));

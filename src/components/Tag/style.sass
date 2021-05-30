@@ -1,15 +1,38 @@
-.c-btn
-  padding: 10px 14px
+
+.c-tag, .tag-wrapper
+  padding: 2px 8px
   background-color: #e3e3e4
   cursor: pointer
-  border-radius: 8px
+  border-radius: 20px
   border: 1px solid #e3e3e4
   position: relative
-  font-size: 13px
-  @media ( max-width: 768px )
-    padding: 8px
-    font-size: 11px
-
+  font-size: 12px
+  display: inline-flex
+  overflow: hidden
+  // align-items: center
+  // justify-content: center
+  // vertical-align: middle
+  &__button
+    background: none
+    border: none
+    padding: 4px 6px
+    cursor: pointer
+    position: absolute
+    height: 100%
+    right: 0
+    top: 0
+    display: flex
+    align-items: center
+    justify-content: center
+    z-index: 3
+    svg
+      width: 12px!important
+      height: 12px!important
+    &:hover
+      background-color: darken(#e3e3e4, 5)
+    // display: flex
+    // align-items: center
+    // justify-content: center
   &__background
     display: none
     position: absolute
@@ -26,6 +49,9 @@
     width: 100%
     height: 100%
     z-index: 2
+  &--closeable
+    .c-tag__content
+      padding-right: 16px
   &--two-columns
     .c-btn__content
       display: grid
@@ -48,10 +74,11 @@
     border: none
   &--block
     width: 100%
-  &:hover
-    & > .c-btn__background
-      background: rgba(0,0,0,.2)
-      display: inline
   &:active, &:focus
     box-shadow: 0px 0px 0px 1px black
     outline: 0
+.tag-wrapper
+  padding-right: 22px
+  margin-right: 2px
+  margin-top: 4px
+  margin-bottom: 4px

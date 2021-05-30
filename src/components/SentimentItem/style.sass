@@ -1,12 +1,59 @@
 .c-sentiment-item
-  padding: 8px 12px
-  border: 1px solid #F3F3F4
-  background-color: #F3F3F4
+  padding: 16px
+  border: 1px solid #F3F3F3
+  background-color: #FBFBFB
   border-radius: 8px
-  margin: 4px 0
+  &__author
+    display: flex
+    gap: 4px
+    img
+      width: 20px
+      height: 20px
+      border-radius: 4px
+  &__text
+    padding: 8px 0
   &__control
-    padding-top: 8px
-    text-align: right
+    margin-bottom: 8px
+    display: flex
+    justify-content: space-between
+    &-head
+      display: grid
+      grid-template-columns: auto auto
+      grid-gap: 2px
+    & .c-btn
+      border-radius: 11px
+      overflow: hidden
+      font-size: 11px
+    &-switcher
+      display: inline-block
+      max-width: 250px
+      display: grid
+      grid-template-columns: auto auto
+      grid-gap: 2px
+      &-text
+        &--hide-xs
+          @media (max-width: 768px)
+            display: none
+
+  &__comment
+    &-tags
+      margin-bottom: 8px
+      padding-bottom: 8px
+      display: grid
+      grid-gap: 8px
+      border-bottom: 1px solid #e6e6e6
+      &-list
+        display: flex
+        gap: 2px
+        flex-wrap: wrap
+
+    &-area
+      display: grid
+      grid-template-columns: 1fr
+      padding-top: 8px
+      border-top: 1px solid #e6e6e6
+      margin-top: 8px
+
   &--positive
     background-color: #bee2aa
   &--negative
