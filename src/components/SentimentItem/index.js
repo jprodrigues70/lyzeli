@@ -22,7 +22,7 @@ export default class SentimentItem extends Component {
   }
 
   handleDelete(tag) {
-    return this.props.onRemoveComment(tag);
+    this.props.onRemoveComment(tag);
   }
 
   change = (color) => {
@@ -43,7 +43,9 @@ export default class SentimentItem extends Component {
     if (comments && comments[this.props.type.key]) {
       const result = {};
 
-      const authors = Object.keys(comments[this.props.type.key]);
+      const authors = Object.keys(comments[this.props.type.key]).filter(
+        (a) => a !== "Consensus"
+      );
       if (authors.length > 1) {
         authors.forEach((author) => {
           const opinions = comments[this.props.type.key][author];
@@ -70,8 +72,11 @@ export default class SentimentItem extends Component {
     const { answer, sentiment, sentimentManual } = this.props.item;
     const comments = { ...this.props.item.comments };
     const consensus = this.consensus();
+
     if (consensus && consensus.length) {
       comments[this.props.type.key]["Consensus"] = consensus;
+    } else if (comments[this.props.type.key]) {
+      delete comments[this.props.type.key]["Consensus"];
     }
 
     let authors = [];
@@ -118,44 +123,49 @@ export default class SentimentItem extends Component {
             <div className="c-sentiment-item__comment-area">
               {authors.map((i) => {
                 const author = i.split("@");
-
-                return (
-                  <div className="c-sentiment-item__comment-tags" key={i}>
-                    <div className="c-sentiment-item__author">
-                      {author.length > 1 ? (
-                        <>
-                          <img
-                            src={`https://avatars.githubusercontent.com/u/${author[1]}?v=4`}
-                            title={author[0]}
-                            alt={author[0]}
-                          />
-                          <a
-                            href={`https://github.com/${author[0]}`}
-                            target="_blank"
-                            rel="noreferrer"
+                if (
+                  comments[this.props.type.key][i] &&
+                  comments[this.props.type.key][i].length
+                ) {
+                  return (
+                    <div className="c-sentiment-item__comment-tags" key={i}>
+                      <div className="c-sentiment-item__author">
+                        {author.length > 1 ? (
+                          <>
+                            <img
+                              src={`https://avatars.githubusercontent.com/u/${author[1]}?v=4`}
+                              title={author[0]}
+                              alt={author[0]}
+                            />
+                            <a
+                              href={`https://github.com/${author[0]}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              @{author[0]}
+                            </a>
+                          </>
+                        ) : (
+                          <span>
+                            <b>{author}</b>
+                          </span>
+                        )}
+                      </div>
+                      <div className="c-sentiment-item__comment-tags-list">
+                        {comments[this.props.type.key][i].map((j) => (
+                          <Tag
+                            key={j.id}
+                            closeable={author[0] === user.login}
+                            onClose={() => this.handleDelete(j)}
                           >
-                            @{author[0]}
-                          </a>
-                        </>
-                      ) : (
-                        <span>
-                          <b>{author}</b>
-                        </span>
-                      )}
+                            {j.text}
+                          </Tag>
+                        ))}
+                      </div>
                     </div>
-                    <div className="c-sentiment-item__comment-tags-list">
-                      {comments[this.props.type.key][i].map((j) => (
-                        <Tag
-                          key={j.id}
-                          closeable={author[0] === user.login}
-                          onClose={() => this.handleDelete(j)}
-                        >
-                          {j.text}
-                        </Tag>
-                      ))}
-                    </div>
-                  </div>
-                );
+                  );
+                }
+                return "";
               })}
               <ReactTags
                 autofocus={false}
