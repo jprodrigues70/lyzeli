@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/lyzeli/static/css/main.827deaa1.chunk.css",
-    "main.js": "/lyzeli/static/js/main.7cfbb61b.chunk.js",
-    "main.js.map": "/lyzeli/static/js/main.7cfbb61b.chunk.js.map",
+    "main.js": "/lyzeli/static/js/main.cce0a2a6.chunk.js",
+    "main.js.map": "/lyzeli/static/js/main.cce0a2a6.chunk.js.map",
     "runtime-main.js": "/lyzeli/static/js/runtime-main.80b58ca6.js",
     "runtime-main.js.map": "/lyzeli/static/js/runtime-main.80b58ca6.js.map",
-    "static/js/2.eb8272a9.chunk.js": "/lyzeli/static/js/2.eb8272a9.chunk.js",
-    "static/js/2.eb8272a9.chunk.js.map": "/lyzeli/static/js/2.eb8272a9.chunk.js.map",
+    "static/js/2.7a1f053e.chunk.js": "/lyzeli/static/js/2.7a1f053e.chunk.js",
+    "static/js/2.7a1f053e.chunk.js.map": "/lyzeli/static/js/2.7a1f053e.chunk.js.map",
     "static/js/3.75a97106.chunk.js": "/lyzeli/static/js/3.75a97106.chunk.js",
     "static/js/3.75a97106.chunk.js.map": "/lyzeli/static/js/3.75a97106.chunk.js.map",
     "index.html": "/lyzeli/index.html",
     "static/css/main.827deaa1.chunk.css.map": "/lyzeli/static/css/main.827deaa1.chunk.css.map",
-    "static/js/2.eb8272a9.chunk.js.LICENSE.txt": "/lyzeli/static/js/2.eb8272a9.chunk.js.LICENSE.txt",
+    "static/js/2.7a1f053e.chunk.js.LICENSE.txt": "/lyzeli/static/js/2.7a1f053e.chunk.js.LICENSE.txt",
     "static/media/Lyzeli.svg": "/lyzeli/static/media/Lyzeli.4543b848.svg",
     "static/media/close.svg": "/lyzeli/static/media/close.4deb0168.svg",
     "static/media/database.svg": "/lyzeli/static/media/database.42247b29.svg",
@@ -27,8 +27,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.80b58ca6.js",
-    "static/js/2.eb8272a9.chunk.js",
+    "static/js/2.7a1f053e.chunk.js",
     "static/css/main.827deaa1.chunk.css",
-    "static/js/main.7cfbb61b.chunk.js"
+    "static/js/main.cce0a2a6.chunk.js"
   ]
 }
