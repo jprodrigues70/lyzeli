@@ -42,43 +42,59 @@ export default class Home extends Component {
     this.setState({ loading: true });
     const repo = localStorage.getItem("repo");
     const name = localStorage.getItem("name");
-    const current = localStorage.getItem("current");
     const user = JSON.parse(localStorage.getItem("user"));
 
-    axios
-      .delete(
-        `https://api.github.com/repos/${repo}/contents/database/${name}.json`,
-        {
-          headers: this.getHeaders(),
-          data: {
-            message: `Delete ${name}`,
-            sha: current,
-            committer:
-              user.name && user.email
-                ? {
-                    name: user.name,
-                    email: user.email,
-                  }
-                : {
-                    name: "Lyzeli",
-                    email: "example@email.com",
+    if (repo) {
+      axios
+        .get(
+          `https://api.github.com/repos/${repo}/contents/database?timestamp=${new Date().getTime()}`,
+          {
+            headers: this.getHeaders(),
+          }
+        )
+        .then((res) => {
+          const hasDatabase = res.data.find(
+            (i) => i.path === "database/.lyzeli"
+          );
+          if (hasDatabase) {
+            const current =
+              res.data.find((i) => i.name === `${name}.json`)?.sha || null;
+            return axios
+              .delete(
+                `https://api.github.com/repos/${repo}/contents/database/${name}.json`,
+                {
+                  headers: this.getHeaders(),
+                  data: {
+                    message: `Delete ${name}`,
+                    sha: current,
+                    committer:
+                      user.name && user.email
+                        ? {
+                            name: user.name,
+                            email: user.email,
+                          }
+                        : {
+                            name: "Lyzeli",
+                            email: "example@email.com",
+                          },
                   },
-          },
-        }
-      )
-      .then((res) => {
-        this.notify("success", "Removed! Page will reload");
-        localStorage.removeItem("database");
-        localStorage.removeItem("current");
-        localStorage.removeItem("name");
-        this.setState({ loading: false });
-        window.location.reload();
-      })
-      .finally(() => {
-        this.notify("error", "Error! Please, reload.");
-        this.setState({ loading: false });
-        this.props.onLoadChange && this.props.onLoadChange(false);
-      });
+                }
+              )
+              .then((res) => {
+                localStorage.removeItem("database");
+                localStorage.removeItem("name");
+                this.setState({ loading: false });
+                this.notify("success", "Removed! Page will reload");
+                window.location.reload();
+              })
+              .finally(() => {
+                this.notify("error", "Error! Please, reload.");
+                this.setState({ loading: false });
+                this.props.onLoadChange && this.props.onLoadChange(false);
+              });
+          }
+        });
+    }
   };
 
   notify = (type, msg) => toast[type](msg);

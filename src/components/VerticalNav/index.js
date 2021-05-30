@@ -25,7 +25,7 @@ export default class VerticalNav extends Component {
     this.state = {
       showModal: false,
       items: [],
-      current: localStorage.getItem("current"),
+      currentName: localStorage.getItem("name"),
       showImportModal: false,
     };
   }
@@ -60,16 +60,20 @@ export default class VerticalNav extends Component {
                 ),
               },
               () => {
-                const current = localStorage.getItem("current");
-                const sha =
-                  !current && this.state.items.length
-                    ? this.state.items[0].sha
-                    : current;
+                const currentName = localStorage.getItem("name");
+                const item =
+                  !currentName && this.state.items.length
+                    ? this.state.items[0]
+                    : this.state.items.find(
+                        (i) => i.name === `${currentName}.json`
+                      ) || {};
+                const sha = item.sha;
 
                 if (sha && this.state.items.length) {
+                  localStorage.setItem("name", item.name.replace(".json", ""));
                   this.getDatabase(sha);
                 } else {
-                  localStorage.setItem("current", "");
+                  localStorage.setItem("name", "");
                   this.props.onLoadChange && this.props.onLoadChange(false);
                 }
               }
@@ -84,9 +88,9 @@ export default class VerticalNav extends Component {
   }
 
   componentDidUpdate() {
-    const current = localStorage.getItem("current");
-    if (this.state.current !== current) {
-      this.setState({ current });
+    const currentName = localStorage.getItem("name");
+    if (this.state.currentName !== currentName) {
+      this.setState({ currentName });
       this.loadMenu();
     }
   }
@@ -96,15 +100,18 @@ export default class VerticalNav extends Component {
     this.props.onLoadChange && this.props.onLoadChange(true);
     const repo = localStorage.getItem("repo");
     axios
-      .get(`https://api.github.com/repos/${repo}/git/blobs/${sha}`, {
-        headers,
-      })
+      .get(
+        `https://api.github.com/repos/${repo}/git/blobs/${sha}?timestamp=${new Date().getTime()}`,
+        {
+          headers,
+        }
+      )
       .then((res) => {
         const str = Buffer.from(res.data.content, "base64").toString("utf8");
         const database = JSON.parse(str);
 
+        localStorage.removeItem("database");
         localStorage.setItem("database", JSON.stringify(database));
-        localStorage.setItem("current", sha);
 
         this.context.dispatch({
           action: "database.create",
@@ -124,7 +131,7 @@ export default class VerticalNav extends Component {
   };
 
   isActive = (item) => {
-    if (item.sha === this.state.current) {
+    if (item.name.replace(".json", "") === this.state.currentName) {
       localStorage.setItem("name", item.name.replace(".json", ""));
       return true;
     }
@@ -133,9 +140,9 @@ export default class VerticalNav extends Component {
 
   change = (item) => {
     this.setState({
-      current: item.sha,
+      currentName: item.name.replace(".json", ""),
     });
-    localStorage.setItem("current", item.sha);
+    localStorage.setItem("name", item.name.replace(".json", ""));
 
     this.props.parallel.dispatch({
       action: "change.setTo",

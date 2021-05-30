@@ -90,7 +90,8 @@ class NewTsv extends Component {
         }
       )
       .then((res) => {
-        localStorage.setItem("current", res.data.content.sha);
+        localStorage.setItem("name", this.state.name);
+        window.location.reload();
       })
       .catch(() => {
         this.setState({ loading: false });

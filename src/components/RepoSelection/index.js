@@ -29,7 +29,9 @@ class RepoSelection extends Component {
     this.setState({ loading: true });
     axios
       .get(
-        `https://api.github.com/repos/${this.state.repo}/contents/database`,
+        `https://api.github.com/repos/${
+          this.state.repo
+        }/contents/database?timestamp=${new Date().getTime()}`,
         {
           headers: this.getHeaders(),
         }
@@ -99,7 +101,6 @@ class RepoSelection extends Component {
   };
 
   setRepo = (str) => {
-    localStorage.removeItem("current");
     localStorage.removeItem("repo");
     localStorage.removeItem("name");
     localStorage.removeItem("database");
