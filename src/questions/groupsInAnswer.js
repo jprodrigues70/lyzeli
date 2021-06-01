@@ -28,6 +28,7 @@ const groupsInAnswer = {
       "quanto(a)s",
       "quanta(o)s",
       "indicar mais de uma",
+      "qual o número de",
     ],
     en: ["how long", "what is", "what title"],
   },
