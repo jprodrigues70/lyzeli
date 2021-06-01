@@ -53,6 +53,9 @@ const negatives = {
     "repulgnante",
     "terrível",
     "baixo",
+    "não se aplica",
+    "negativo",
+    "negativa",
   ],
   en: [
     "I never",

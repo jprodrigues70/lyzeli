@@ -16,6 +16,7 @@ const negativeOrList = {
       "você está de acordo",
       "avalie",
       "qual motivo",
+      "como você avalia",
     ],
     en: ["what action", "what", "please detail"],
   },

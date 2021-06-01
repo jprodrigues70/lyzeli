@@ -38,6 +38,13 @@ const positives = {
     "sim",
     "pois não",
     "existe",
+    "alguns",
+    "a maioria",
+    "todos",
+    "todo(a)s",
+    "toda(o)s",
+    "positvo",
+    "positva",
   ],
   en: ["yes", "shure", "I am", "cool", "best of luck", "I agree"],
 };
