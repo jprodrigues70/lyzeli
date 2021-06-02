@@ -49,6 +49,19 @@ export default class AnswerPane extends AnswerPrinter {
     return this.summaryAnswer(answers, null, null, type, onClick);
   };
 
+  commaSeparatedSummarize = (type, onClick) => {
+    let exploded = [];
+    this.valids.map((i) => {
+      const a = i.answer.split(",");
+      a.forEach((j) => {
+        exploded.push({ ...i, answer: j.trim() });
+      });
+    });
+
+    const answers = AnswerClassifier.groupAnswers(exploded);
+    return this.summaryAnswer(answers, null, null, type, onClick);
+  };
+
   categorizeAndMerge = (type, onClick) => {
     return this.categoryAnswer(type, (set) => {
       const grouped = AnswerClassifier.groupAnswers(set);
@@ -143,8 +156,14 @@ export default class AnswerPane extends AnswerPrinter {
   }
 
   render() {
+    const type = this.props["question-classification"];
     return (
       <div className="c-answer-pane">
+        {type.key === "multipleGroupsInAnswer" && (
+          <div>
+            If you want 1 answer by respondent, choose "Groups in answer" option
+          </div>
+        )}
         <div className="c-answer-pane__counters">
           <div className="c-answer-pane__counters-item">
             Valids: {this.valids.filter((i) => !i.isFiltered).length}
