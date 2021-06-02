@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/lyzeli/static/css/main.827deaa1.chunk.css",
-    "main.js": "/lyzeli/static/js/main.a8d13769.chunk.js",
-    "main.js.map": "/lyzeli/static/js/main.a8d13769.chunk.js.map",
+    "main.js": "/lyzeli/static/js/main.4d3bc202.chunk.js",
+    "main.js.map": "/lyzeli/static/js/main.4d3bc202.chunk.js.map",
     "runtime-main.js": "/lyzeli/static/js/runtime-main.80b58ca6.js",
     "runtime-main.js.map": "/lyzeli/static/js/runtime-main.80b58ca6.js.map",
     "static/js/2.7a1f053e.chunk.js": "/lyzeli/static/js/2.7a1f053e.chunk.js",
@@ -29,6 +29,6 @@
     "static/js/runtime-main.80b58ca6.js",
     "static/js/2.7a1f053e.chunk.js",
     "static/css/main.827deaa1.chunk.css",
-    "static/js/main.a8d13769.chunk.js"
+    "static/js/main.4d3bc202.chunk.js"
   ]
 }
