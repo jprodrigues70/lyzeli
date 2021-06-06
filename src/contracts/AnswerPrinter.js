@@ -497,11 +497,43 @@ export default class AnswerPrinter extends Component {
                   ) : (
                     i
                   )}
-                  : {answers[i]}
+                  : <b>{answers[i]}</b> (
+                  {this.valids.length > 0
+                    ? `${((answers[i] * 100) / this.valids.length).toFixed(2)}%`
+                    : ""}
+                  )
                 </li>
               );
             })}
           </ul>
+        ),
+      },
+      {
+        key: "LaTeX table",
+        content: () => (
+          <textarea
+            rows="12"
+            style={{ width: "100%", padding: "8px" }}
+            defaultValue={`\\begin{table*}[ht]
+    \\centering
+    \\def \\arraystretch{1.3}
+    \\begin{tabular}{|p{6cm}|c|c|}
+        \\hline
+        \\bf Option & \\bf Frequency & \\bf Percentage\\\\
+        \\hline\n${answersKeys
+          .map((i) => {
+            return `        ${i} & ${answers[i]} & ${
+              this.valids.length > 0
+                ? `${((answers[i] * 100) / this.valids.length).toFixed(2)}\\%`
+                : "-"
+            }\\\\\n        \\hline`;
+          })
+          .join("\n")}
+    \\end{tabular}
+    \\caption{${this.table.titles[this.props.question]}}
+    \\label{question:Q${this.props.question + 1}}
+\\end{table*}`}
+          ></textarea>
         ),
       },
     ];
