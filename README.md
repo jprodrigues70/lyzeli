@@ -1,5 +1,3 @@
-TSV Explorer
-
-Aplicação para interpretar dados de um arquivo TSV utilizando noções básicas de análise de dadps por match de strings. Útil para análise de respostas de surveys
+This project move to https://github.com/arieslab/lyzeli
 
 https://arieslab.github.io/lyzeli
